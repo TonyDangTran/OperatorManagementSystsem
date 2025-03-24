@@ -4,13 +4,29 @@ public class OperatorManagementSystem {
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
+  String stored_operator;
+  String stored_location;
 
   public void searchOperators(String keyword) {
-    System.out.println("There are no matching operators found.");
+    if (keyword == "*") {
+      System.out.println("There is 1 matching operator found:\n" + stored_operator);
+    }
+    else if (stored_operator != keyword) {
+      System.out.println("There are no matching operators found.");
+    }
   }
 
   public void createOperator(String operatorName, String location) {
-    // TODO implement
+
+    if (operatorName.strip().length() >= 3) {
+      stored_operator = operatorName;
+      if (location.equals("AKL")) {
+        stored_location = "Auckland | Tāmaki Makaurau";
+      }
+      System.out.println("Successfully created operator " + "'"+ stored_operator + "'");
+      System.out.println("located in " + "'" + stored_location + "'.");
+    }
+   
   }
 
   public void viewActivities(String operatorId) {
