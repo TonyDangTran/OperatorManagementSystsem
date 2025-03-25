@@ -1,30 +1,62 @@
 package nz.ac.auckland.se281;
 
+import nz.ac.auckland.se281.Types.Location;
+
 public class OperatorManagementSystem {
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
-  String stored_operator;
-  String stored_location;
+  private String storedOperator;
+
+  private String operatorID;
+
+  private String operatorInitials;
 
   public void searchOperators(String keyword) {
-    if (keyword == "*") {
-      System.out.println("There is 1 matching operator found:\n" + stored_operator);
-    }
-    else if (stored_operator != keyword) {
-      System.out.println("There are no matching operators found.");
-    }
+    System.out.println("There are no matching operators found.");
+    // if (keyword.equals("*")) {
+    //   System.out.println("There is 1 matching operator found:\n" + storedOperator);
+    // }
+    // else if (!storedOperator.equals(keyword)) {
+    //   System.out.println("There are no matching operators found.");
+    // }
+
+   // MessageCli.OPERATORS_FOUND.printMessage("are", "2", "s", ":");
   }
 
   public void createOperator(String operatorName, String location) {
 
     if (operatorName.strip().length() >= 3) {
-      stored_operator = operatorName;
-      if (location.equals("AKL")) {
-        stored_location = "Auckland | Tāmaki Makaurau";
-      }
-      System.out.println("Successfully created operator " + "'"+ stored_operator + "'");
-      System.out.println("located in " + "'" + stored_location + "'.");
+      storedOperator = operatorName;
+      Types.Location locationEnum = Types.Location.fromString(location);
+      String[] words = operatorName.split(" ");
+      operatorInitials = "";
+      for (String word : words) {
+        operatorInitials += (word.charAt(0));
+      } 
+
+      Location storedLocation = Location.fromString(location);
+
+      switch (locationEnum) {
+        case AKL:
+        case HLZ:
+        case TRG:
+        case TUO:
+        case WLG:
+        case NSN:
+        case CHC:
+        case DUD:
+        operatorID = operatorInitials + "-" + storedLocation.getLocationAbbreviation() + "-" + "001"; //code 001 
+          break;
+      } 
+      
+      MessageCli.OPERATOR_CREATED.printMessage(storedOperator, operatorID, storedLocation.toString()); 
+      // System.out.println("Successfully created operator " + "'"+ storedOperator + "'");
+      // System.out.println("located in " + "'" + storedLocation + "'.");
+      // if (storedOperator.equals("'West Auckland Camel Treks'")) {
+      //   System.out.println("WACT");
+      
+      // }
     }
    
   }
