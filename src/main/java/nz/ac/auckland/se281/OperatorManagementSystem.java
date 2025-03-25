@@ -1,19 +1,60 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nz.ac.auckland.se281.Types.Location;
 
 public class OperatorManagementSystem {
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
+
+  private List<String> operatorNames = new ArrayList<String>();
+
   private String storedOperator;
 
   private String operatorID;
 
   private String operatorInitials;
 
+  private String keywordMatch;
+
+  private Integer matchingOperators;
+
   public void searchOperators(String keyword) {
-    System.out.println("There are no matching operators found.");
+    keywordMatch = keyword;
+    matchingOperators = 0;
+    
+    if (keywordMatch.equals("*")) {
+      matchingOperators = operatorNames.size();
+    }
+    else if (operatorNames.contains(keywordMatch)) {
+      for (String matching:operatorNames) {
+        if (matching.equals(keywordMatch)) {
+        matchingOperators++;
+      }
+    }
+
+  } 
+
+  if (matchingOperators == 0) {
+    MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
+
+  } else if (matchingOperators == 1) {
+    MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
+      for (String operatorList : operatorNames) {
+      System.out.println(operatorList);
+  }
+  } else {
+    MessageCli.OPERATORS_FOUND.printMessage("are", matchingOperators.toString(), "s", ":");
+        for (String operatorList : operatorNames) {
+          System.out.println(operatorList);
+      }
+      }
+    //  MessageCli.OPERATORS_FOUND.printMessage("are" + "" + "s" + ":")
+  }
+    // System.out.println("There are no matching operators found.");
     // if (keyword.equals("*")) {
     //   System.out.println("There is 1 matching operator found:\n" + storedOperator);
     // }
@@ -21,8 +62,7 @@ public class OperatorManagementSystem {
     //   System.out.println("There are no matching operators found.");
     // }
 
-   // MessageCli.OPERATORS_FOUND.printMessage("are", "2", "s", ":");
-  }
+   // MessageCli.OPERATORS_FOUND.printMessage("are", "2", "s", ":")
 
   public void createOperator(String operatorName, String location) {
 
@@ -46,10 +86,14 @@ public class OperatorManagementSystem {
         case NSN:
         case CHC:
         case DUD:
-        operatorID = operatorInitials + "-" + storedLocation.getLocationAbbreviation() + "-" + "001"; //code 001 
+          operatorID = operatorInitials + "-" + storedLocation.getLocationAbbreviation() + "-" + "001"; //code 001 
           break;
-      } 
-      
+      }      
+
+      operatorNames.add(MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID, storedLocation.toString()));
+  
+      //storedOperator + " ('" + operatorID +"'"  +  " located in " + "'" + storedLocation.toString() + "')"
+
       MessageCli.OPERATOR_CREATED.printMessage(storedOperator, operatorID, storedLocation.toString()); 
       // System.out.println("Successfully created operator " + "'"+ storedOperator + "'");
       // System.out.println("located in " + "'" + storedLocation + "'.");
