@@ -77,6 +77,26 @@ public class OperatorManagementSystem {
 
       Location storedLocation = Location.fromString(location);
 
+      String locationAbbreviation = storedLocation.getLocationAbbreviation();
+
+      int operatorCount = 0;
+
+
+    
+    for (String existingLocation : operatorNames) {
+      if (existingLocation.equals((MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID, storedLocation.toString())))) {
+        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(storedOperator, storedLocation.toString());
+        return;
+    }
+      else if (existingLocation.contains((locationAbbreviation))) {
+          operatorCount++;
+      }
+  }
+
+    int newOperatorNumber = operatorCount + 1; 
+
+     String threeDigitNumber = String.format("%03d", newOperatorNumber);
+
       switch (locationEnum) {
         case AKL:
         case HLZ:
@@ -86,12 +106,19 @@ public class OperatorManagementSystem {
         case NSN:
         case CHC:
         case DUD:
-          operatorID = operatorInitials + "-" + storedLocation.getLocationAbbreviation() + "-" + "001"; //code 001 
-          break;
+
+          operatorID = operatorInitials + "-" + storedLocation.getLocationAbbreviation() + "-" + threeDigitNumber;
       }      
 
+      if (operatorNames.contains(MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID, storedLocation.toString()))) 
+      {
+        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(storedOperator, storedLocation.toString());
+        return;
+      }
+      else {
       operatorNames.add(MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID, storedLocation.toString()));
-  
+      }
+      
       //storedOperator + " ('" + operatorID +"'"  +  " located in " + "'" + storedLocation.toString() + "')"
 
       MessageCli.OPERATOR_CREATED.printMessage(storedOperator, operatorID, storedLocation.toString()); 
