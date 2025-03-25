@@ -29,12 +29,13 @@ public class OperatorManagementSystem {
     if (keywordMatch.equals("*")) {
       matchingOperators = operatorNames.size();
     }
-    else if (operatorNames.contains(keywordMatch)) {
+    else {
       for (String matching:operatorNames) {
-        if (matching.equals(keywordMatch)) {
+        if (matching.toLowerCase().contains(keywordMatch.toLowerCase())) {
         matchingOperators++;
+        }
       }
-    }
+    
 
   } 
 
@@ -52,17 +53,7 @@ public class OperatorManagementSystem {
           System.out.println(operatorList);
       }
       }
-    //  MessageCli.OPERATORS_FOUND.printMessage("are" + "" + "s" + ":")
   }
-    // System.out.println("There are no matching operators found.");
-    // if (keyword.equals("*")) {
-    //   System.out.println("There is 1 matching operator found:\n" + storedOperator);
-    // }
-    // else if (!storedOperator.equals(keyword)) {
-    //   System.out.println("There are no matching operators found.");
-    // }
-
-   // MessageCli.OPERATORS_FOUND.printMessage("are", "2", "s", ":")
 
   public void createOperator(String operatorName, String location) {
 
@@ -80,9 +71,7 @@ public class OperatorManagementSystem {
       String locationAbbreviation = storedLocation.getLocationAbbreviation();
 
       int operatorCount = 0;
-
-
-    
+ 
     for (String existingLocation : operatorNames) {
       if (existingLocation.equals((MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID, storedLocation.toString())))) {
         MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(storedOperator, storedLocation.toString());
@@ -118,16 +107,7 @@ public class OperatorManagementSystem {
       else {
       operatorNames.add(MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID, storedLocation.toString()));
       }
-      
-      //storedOperator + " ('" + operatorID +"'"  +  " located in " + "'" + storedLocation.toString() + "')"
-
       MessageCli.OPERATOR_CREATED.printMessage(storedOperator, operatorID, storedLocation.toString()); 
-      // System.out.println("Successfully created operator " + "'"+ storedOperator + "'");
-      // System.out.println("located in " + "'" + storedLocation + "'.");
-      // if (storedOperator.equals("'West Auckland Camel Treks'")) {
-      //   System.out.println("WACT");
-      
-      // }
     }
    
   }
