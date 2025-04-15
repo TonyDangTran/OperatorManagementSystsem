@@ -1,137 +1,16 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
-import java.util.List;
-import nz.ac.auckland.se281.Types.Location;
-
 public class OperatorManagementSystem {
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
 
-  private List<String> operatorNames = new ArrayList<String>();
-
-  private String storedOperator;
-
-  private String operatorID;
-
-  private String operatorInitials;
-
-  private String keywordMatch;
-
-  private Integer matchingOperators;
-
-  public void searchOperators(
-      String keyword) { // receives a keyword, and searches the ArrayList for it.
-    keywordMatch = keyword;
-    matchingOperators = 0;
-
-    if (keywordMatch.equals("*")) {
-      matchingOperators = operatorNames.size();
-    } else {
-      for (String matching : operatorNames) {
-        if (matching.toLowerCase().contains(keywordMatch.toLowerCase())) {
-          matchingOperators++;
-        }
-      }
-    }
-
-    if (matchingOperators == 0) {
-      MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
-
-    } else if (matchingOperators == 1) {
-      MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
-      for (String operatorList : operatorNames) {
-        System.out.println(operatorList);
-      }
-    } else {
-      MessageCli.OPERATORS_FOUND.printMessage("are", matchingOperators.toString(), "s", ":");
-      for (String operatorList : operatorNames) {
-        System.out.println(operatorList);
-      }
-    }
+  public void searchOperators(String keyword) {
+    // TODO implement
   }
 
-  public void createOperator(
-      String operatorName,
-      String location) { // receives two inputs, and creates an operator which is saved to the
-    // ArrayList, operatorNames.
-
-    if (operatorName == null
-        || operatorName.equals("null")
-        || location == null
-        || location.equals("null")) {
-      MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.printMessage(operatorName);
-      return;
-    }
-
-    if (operatorName.strip().length() >= 3) {
-      storedOperator = operatorName;
-      Types.Location locationEnum = Types.Location.fromString(location);
-      String[] words = operatorName.split(" ");
-      operatorInitials = "";
-      for (String word : words) {
-        operatorInitials += (word.charAt(0));
-      }
-
-      Location storedLocation = Location.fromString(location);
-      if (storedLocation == null) {
-        MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
-        return;
-      }
-
-      String locationAbbreviation = storedLocation.getLocationAbbreviation();
-
-      int operatorCount = 0;
-      for (String existingLocation : operatorNames) { // checks if the operator already exists
-        if (existingLocation.equals(
-            (MessageCli.OPERATOR_ENTRY.getMessage(
-                storedOperator, operatorID, storedLocation.toString())))) {
-          MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(
-              storedOperator, storedLocation.toString());
-          return;
-        } else if (existingLocation.contains((locationAbbreviation))) {
-          operatorCount++;
-        }
-      }
-      int newOperatorNumber = operatorCount + 1;
-
-      String threeDigitNumber = String.format("%03d", newOperatorNumber);
-
-      switch (locationEnum) { // creates the operator ID based on the location
-        case AKL:
-        case HLZ:
-        case TRG:
-        case TUO:
-        case WLG:
-        case NSN:
-        case CHC:
-        case DUD:
-          operatorID =
-              operatorInitials
-                  + "-"
-                  + storedLocation.getLocationAbbreviation()
-                  + "-"
-                  + threeDigitNumber;
-      }
-
-      if (operatorNames.contains(
-          MessageCli.OPERATOR_ENTRY.getMessage(
-              storedOperator, operatorID, storedLocation.toString()))) {
-        MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(
-            storedOperator, storedLocation.toString());
-        return;
-      } else {
-        operatorNames.add(
-            MessageCli.OPERATOR_ENTRY.getMessage(
-                storedOperator, operatorID, storedLocation.toString()));
-      }
-      MessageCli.OPERATOR_CREATED.printMessage(
-          storedOperator, operatorID, storedLocation.toString());
-    } else {
-      MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.printMessage(operatorName);
-      return;
-    }
+  public void createOperator(String operatorName, String location) {
+    // TODO implement
   }
 
   public void viewActivities(String operatorId) {

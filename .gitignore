@@ -3,6 +3,7 @@
 
 target/
 codestyle.config
+OperatorManagementSystemCopy.java
 
 ### Eclipse ###
 .metadata
