@@ -8,12 +8,16 @@ public class Operator {
   private String operatorInitials = "";
   private String operatorID = "";
 
-  public Operator(String operatorName, Location location, int operatorNumber) {
+  public Operator(
+      String operatorName,
+      Location location,
+      int operatorNumber) { // Operator Constructor that takes in three inputs
     this.operatorName = operatorName;
     this.location = location;
     this.operatorID = generateOperatorID(operatorNumber);
   }
 
+  // getters and setters
   public String getOperatorID() {
     return this.operatorID;
   }

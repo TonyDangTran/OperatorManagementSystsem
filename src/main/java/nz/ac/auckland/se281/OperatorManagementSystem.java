@@ -15,7 +15,8 @@ public class OperatorManagementSystem {
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
 
-  public void searchOperators(String keyword) {
+  public void searchOperators(
+      String keyword) { // receives a keyword, and searches the matchingOperatrs ArrayList for it.
     this.keyword = keyword.toLowerCase().trim();
     matchingKeywordCount = 0;
     ArrayList<Operator> matchingOperators = new ArrayList<Operator>();
@@ -53,13 +54,16 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void createOperator(String operatorName, String location) {
+  public void createOperator(
+      String operatorName,
+      String location) { // receives two inputs, and creates an operator which is saved to the
+    // operatorList ArrayList.
     this.operatorName = operatorName;
     this.location = location;
 
-    Location storedLocationCheck = Location.fromString(location);
+    Location storedLocationCheck = Location.fromString(this.location);
     if (storedLocationCheck == null) {
-      MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
+      MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(this.location);
       return;
     }
 
