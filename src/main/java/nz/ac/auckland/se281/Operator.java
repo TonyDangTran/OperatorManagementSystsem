@@ -7,33 +7,33 @@ public class Operator {
   private String operatorID = "";
   private Types.Location locationEnum;
 
-  public Operator(String operatorID, String operatorName, String location) {
-    this.operatorID = operatorID;
+  public Operator(String operatorName, String location, int operatorNumber) {
     this.operatorName = operatorName;
     this.location = location;
     this.locationEnum = Types.Location.fromString(this.location);
-  }
-
-  public Operator(String operatorName, String location) {
-    this.operatorName = operatorName;
-    this.location = location;
-    this.locationEnum = Types.Location.fromString(this.location);
+    this.operatorID = generateOperatorID(operatorNumber);
   }
 
   public String getOperatorID() {
-    operatorID = getOperatorInitials() + "-" + locationEnum.getLocationAbbreviation() + "-" + "001";
-    return operatorID;
+    return this.operatorID;
+  }
+
+  public String generateOperatorID(int operatorNumber) {
+    return getOperatorInitials()
+        + "-"
+        + locationEnum.getLocationAbbreviation()
+        + "-"
+        + String.format("%03d", operatorNumber);
   }
 
   public String getOperatorName() {
     if ((this.operatorName == null) || (this.operatorName.equals("null"))) {
       return MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.getMessage(operatorName);
     }
-    return operatorName;
+    return this.operatorName;
   }
 
   public String getLocation() {
-
     return locationEnum.getFullName();
   }
 

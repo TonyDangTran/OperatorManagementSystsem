@@ -1,12 +1,14 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import nz.ac.auckland.se281.Types.Location;
 
 public class OperatorManagementSystem {
 
   private String keyword;
   private String operatorName;
   private String location;
+  private int operatorCount = 0;
   private ArrayList<Operator> operatorList = new ArrayList<>();
 
   // Do not change the parameters of the constructor
@@ -20,13 +22,32 @@ public class OperatorManagementSystem {
   public void createOperator(String operatorName, String location) {
     this.operatorName = operatorName;
     this.location = location;
-    Operator newOperator = new Operator(this.operatorName, this.location);
-    operatorList.add(newOperator);
-    System.out.println(
-        MessageCli.OPERATOR_CREATED.getMessage(
-            newOperator.getOperatorName(), newOperator.getOperatorID(), newOperator.getLocation()));
-    // operatorList.add(MessageCli.OPERATOR_ENTRY.getMessage(storedOperator, operatorID,
-    // storedLocation.toString()));
+
+    Location storedLocationCheck = Location.fromString(location);
+    if (storedLocationCheck == null) {
+      MessageCli.OPERATOR_NOT_CREATED_INVALID_LOCATION.printMessage(location);
+      return;
+    }
+
+    if (operatorName.strip().length() >= 3) {
+      for (Operator operator : operatorList) {
+        if (operator.getLocation().equalsIgnoreCase(location)) {
+          operatorCount++;
+        }
+      }
+      operatorCount++;
+
+      Operator newOperator = new Operator(this.operatorName, this.location, operatorCount);
+      operatorList.add(newOperator);
+      System.out.println(
+          MessageCli.OPERATOR_CREATED.getMessage(
+              newOperator.getOperatorName(),
+              newOperator.getOperatorID(),
+              newOperator.getLocation()));
+    } else {
+      System.out.println(
+          MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.getMessage(operatorName));
+    }
   }
 
   public void viewActivities(String operatorId) {
