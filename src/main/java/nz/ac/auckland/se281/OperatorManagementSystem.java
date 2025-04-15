@@ -8,7 +8,7 @@ public class OperatorManagementSystem {
   private String keyword;
   private String operatorName;
   private String location;
-  private int operatorCount = 1;
+  private int operatorCount;
   private int matchingKeywordCount;
   private ArrayList<Operator> operatorList = new ArrayList<Operator>();
 
@@ -16,7 +16,7 @@ public class OperatorManagementSystem {
   public OperatorManagementSystem() {}
 
   public void searchOperators(String keyword) {
-    this.keyword = keyword.toLowerCase();
+    this.keyword = keyword.toLowerCase().trim();
     matchingKeywordCount = 0;
     ArrayList<Operator> matchingOperators = new ArrayList<Operator>();
 
@@ -25,7 +25,11 @@ public class OperatorManagementSystem {
       matchingOperators.addAll(operatorList);
     } else {
       for (Operator operator : operatorList) {
-        if (operator.getOperatorName().toLowerCase().contains(this.keyword)) {
+        if (operator.getOperatorName().toLowerCase().contains(this.keyword)
+            || operator.getLocationAbbreviation().toLowerCase().contains(this.keyword)
+            || operator.getLocationEnglish().toLowerCase().contains(this.keyword)
+            || operator.getLocationTeReo().toLowerCase().contains(this.keyword)) {
+          matchingKeywordCount++;
           matchingOperators.add(operator);
         }
       }
@@ -60,6 +64,7 @@ public class OperatorManagementSystem {
     }
 
     if (operatorName.strip().length() >= 3) {
+      operatorCount = 1;
       for (Operator operator : operatorList) {
         if (operator.getLocation().equals(storedLocationCheck)) {
           operatorCount++;

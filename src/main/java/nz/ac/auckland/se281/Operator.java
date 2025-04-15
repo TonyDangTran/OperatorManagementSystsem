@@ -37,6 +37,10 @@ public class Operator {
     return this.location;
   }
 
+  public String getLocationAbbreviation() {
+    return this.location.getLocationAbbreviation();
+  }
+
   public String getLocationFullName() {
     return this.location.getFullName();
   }
