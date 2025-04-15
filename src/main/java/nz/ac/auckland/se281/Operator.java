@@ -1,16 +1,16 @@
 package nz.ac.auckland.se281;
 
+import nz.ac.auckland.se281.Types.Location;
+
 public class Operator {
   private String operatorName;
-  private String location;
+  private Location location;
   private String operatorInitials = "";
   private String operatorID = "";
-  private Types.Location locationEnum;
 
-  public Operator(String operatorName, String location, int operatorNumber) {
+  public Operator(String operatorName, Location location, int operatorNumber) {
     this.operatorName = operatorName;
     this.location = location;
-    this.locationEnum = Types.Location.fromString(this.location);
     this.operatorID = generateOperatorID(operatorNumber);
   }
 
@@ -21,7 +21,7 @@ public class Operator {
   public String generateOperatorID(int operatorNumber) {
     return getOperatorInitials()
         + "-"
-        + locationEnum.getLocationAbbreviation()
+        + location.getLocationAbbreviation()
         + "-"
         + String.format("%03d", operatorNumber);
   }
@@ -33,8 +33,20 @@ public class Operator {
     return this.operatorName;
   }
 
-  public String getLocation() {
-    return locationEnum.getFullName();
+  public Location getLocation() {
+    return this.location;
+  }
+
+  public String getLocationFullName() {
+    return this.location.getFullName();
+  }
+
+  public String getLocationEnglish() {
+    return this.location.getNameEnglish();
+  }
+
+  public String getLocationTeReo() {
+    return this.location.getNameTeReo();
   }
 
   public String getOperatorInitials() {

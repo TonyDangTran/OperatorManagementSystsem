@@ -8,15 +8,45 @@ public class OperatorManagementSystem {
   private String keyword;
   private String operatorName;
   private String location;
-  private int operatorCount = 0;
-  private ArrayList<Operator> operatorList = new ArrayList<>();
+  private int operatorCount = 1;
+  private int matchingKeywordCount;
+  private ArrayList<Operator> operatorList = new ArrayList<Operator>();
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
 
   public void searchOperators(String keyword) {
-    System.out.println("There are no matching operators found.");
-    // TODO implement
+    this.keyword = keyword.toLowerCase();
+    matchingKeywordCount = 0;
+    ArrayList<Operator> matchingOperators = new ArrayList<Operator>();
+
+    if (this.keyword.equals("*")) {
+      matchingKeywordCount = operatorList.size();
+      matchingOperators.addAll(operatorList);
+    } else {
+      for (Operator operator : operatorList) {
+        if (operator.getOperatorName().toLowerCase().contains(this.keyword)) {
+          matchingOperators.add(operator);
+        }
+      }
+    }
+
+    if (matchingOperators.size() == 0) {
+      MessageCli.OPERATORS_FOUND.printMessage("are", "no", "s", ".");
+    } else if (matchingOperators.size() == 1) {
+      MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
+      MessageCli.OPERATOR_ENTRY.printMessage(
+          matchingOperators.get(0).getOperatorName(),
+          matchingOperators.get(0).getOperatorID(),
+          matchingOperators.get(0).getLocationFullName());
+    } else {
+      MessageCli.OPERATORS_FOUND.printMessage(
+          "are", String.valueOf(matchingKeywordCount), "s", ":");
+      for (Operator match : matchingOperators) {
+        MessageCli.OPERATOR_ENTRY.printMessage(
+            match.getOperatorName(), match.getOperatorID(), match.getLocationFullName());
+      }
+    }
   }
 
   public void createOperator(String operatorName, String location) {
@@ -31,19 +61,27 @@ public class OperatorManagementSystem {
 
     if (operatorName.strip().length() >= 3) {
       for (Operator operator : operatorList) {
-        if (operator.getLocation().equalsIgnoreCase(location)) {
+        if (operator.getLocation().equals(storedLocationCheck)) {
           operatorCount++;
         }
       }
-      operatorCount++;
 
-      Operator newOperator = new Operator(this.operatorName, this.location, operatorCount);
+      for (Operator operator : operatorList) {
+        if ((operator.getOperatorName().equals(operatorName))
+            && (operator.getLocation().equals(storedLocationCheck))) {
+          MessageCli.OPERATOR_NOT_CREATED_ALREADY_EXISTS_SAME_LOCATION.printMessage(
+              operatorName, operator.getLocationFullName());
+          return;
+        }
+      }
+      Operator newOperator = new Operator(this.operatorName, storedLocationCheck, operatorCount);
       operatorList.add(newOperator);
+
       System.out.println(
           MessageCli.OPERATOR_CREATED.getMessage(
               newOperator.getOperatorName(),
               newOperator.getOperatorID(),
-              newOperator.getLocation()));
+              newOperator.getLocationFullName()));
     } else {
       System.out.println(
           MessageCli.OPERATOR_NOT_CREATED_INVALID_OPERATOR_NAME.getMessage(operatorName));
