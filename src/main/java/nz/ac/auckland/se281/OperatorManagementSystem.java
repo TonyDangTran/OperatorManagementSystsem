@@ -110,29 +110,50 @@ public class OperatorManagementSystem {
     if (activityName.strip().length() < 3) {
       MessageCli.ACTIVITY_NOT_CREATED_INVALID_ACTIVITY_NAME.printMessage(activityName);
       return;
-    } else {
-      activityName = activityName.strip();
-      activityType = activityType.strip();
-      ActivityType activityTypeEnum = ActivityType.fromString(activityType);
-
-      activityOperatorCount = 1;
-      for (Activity activity : activityList) {
-        if (activity.getActivityName().equals(activityName)) {
-          activityOperatorCount++;
-          return;
-        }
-      }
-      Activity newActivity =
-          new Activity(activityName, activityTypeEnum, operatorId, activityOperatorCount);
-      activityList.add(newActivity);
-      MessageCli.ACTIVITY_CREATED.printMessage(
-          newActivity.getActivityName(),
-          newActivity.getOperatorID(),
-          newActivity.getActivityType(),
-          operatorId);
     }
-    // TODO implement
+
+    Operator foundOperator = null;
+    for (Operator operator : operatorList) {
+      if (operator.getOperatorID().equals(operatorId)) {
+        foundOperator = operator;
+        break;
+      }
+    }
+
+    if (foundOperator == null) {
+      MessageCli.ACTIVITY_NOT_CREATED_INVALID_OPERATOR_ID.printMessage(operatorId);
+      return;
+    }
+
+    activityName = activityName.strip();
+    activityType = activityType.strip();
+    ActivityType activityTypeEnum = ActivityType.fromString(activityType);
+
+    activityOperatorCount = 1;
+    for (Activity activity : activityList) {
+      if (activity.getActivityName().equals(activityName)) {
+        activityOperatorCount++;
+        return;
+      }
+    }
+    Activity newActivity =
+        new Activity(activityName, activityTypeEnum, operatorId, activityOperatorCount);
+    activityList.add(newActivity);
+    MessageCli.ACTIVITY_CREATED.printMessage(
+        newActivity.getActivityName(),
+        newActivity.getOperatorID(),
+        newActivity.getActivityType(),
+        foundOperator.getOperatorName());
   }
+
+  // else {
+  //   if (operator.getOperatorID().equals(operatorId) == false) {
+  //     MessageCli.ACTIVITY_NOT_CREATED_INVALID_OPERATOR_ID.printMessage(operatorId);
+  //     return;
+  //   }
+  // }
+
+  // TODO implement
 
   public void searchActivities(String keyword) {
     // TODO implement
