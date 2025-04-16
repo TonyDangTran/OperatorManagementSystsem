@@ -1,6 +1,7 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import nz.ac.auckland.se281.Types.ActivityType;
 import nz.ac.auckland.se281.Types.Location;
 
 public class OperatorManagementSystem {
@@ -11,15 +12,16 @@ public class OperatorManagementSystem {
   private int operatorCount;
   private int matchingKeywordCount;
   private ArrayList<Operator> operatorList = new ArrayList<Operator>();
+  private ArrayList<Activity> activityList = new ArrayList<Activity>();
+  private int activityOperatorCount;
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
 
   public void
       searchOperators( // receives a keyword, and searches the matchingOperators ArrayList for it.
-          String
-              keyword) { // Then gives the appropriate output based on the amount of matching
-                         // operators.
+      String keyword) { // Then gives the appropriate output based on the amount of matching
+    // operators.
     this.keyword = keyword.toLowerCase().trim();
     matchingKeywordCount = 0;
     ArrayList<Operator> matchingOperators = new ArrayList<Operator>();
@@ -105,6 +107,30 @@ public class OperatorManagementSystem {
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
+    if (activityName.strip().length() < 3) {
+      MessageCli.ACTIVITY_NOT_CREATED_INVALID_ACTIVITY_NAME.printMessage(activityName);
+      return;
+    } else {
+      activityName = activityName.strip();
+      activityType = activityType.strip();
+      ActivityType activityTypeEnum = ActivityType.fromString(activityType);
+
+      activityOperatorCount = 1;
+      for (Activity activity : activityList) {
+        if (activity.getActivityName().equals(activityName)) {
+          activityOperatorCount++;
+          return;
+        }
+      }
+      Activity newActivity =
+          new Activity(activityName, activityTypeEnum, operatorId, activityOperatorCount);
+      activityList.add(newActivity);
+      MessageCli.ACTIVITY_CREATED.printMessage(
+          newActivity.getActivityName(),
+          newActivity.getOperatorID(),
+          newActivity.getActivityType(),
+          operatorId);
+    }
     // TODO implement
   }
 
