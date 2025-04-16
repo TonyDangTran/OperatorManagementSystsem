@@ -206,7 +206,8 @@ public class OperatorManagementSystem {
     } else {
       for (Activity activity : activityList) {
         if (activity.getActivityName().toLowerCase().contains(activityKeyword)
-            || activity.getOperatorID().toLowerCase().contains(activityKeyword)) {
+            || activity.getOperatorID().toLowerCase().contains(activityKeyword)
+            || activity.getActivityType().toLowerCase().contains(activityKeyword)) {
           activityMatchingKeywordCount++;
           matchingActivities.add(activity);
         }
@@ -217,21 +218,31 @@ public class OperatorManagementSystem {
     } else if (matchingActivities.size() == 1) {
       MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
       for (Activity activity : matchingActivities) {
-        MessageCli.ACTIVITY_ENTRY.printMessage(
-            activity.getActivityName(),
-            activity.getActivityID(),
-            activity.getActivityType(),
-            activity.getOperatorID());
+        for (Operator operator : operatorList) {
+          if (operator.getOperatorID().equals(activity.getOperatorID())) {
+            MessageCli.ACTIVITY_ENTRY.printMessage(
+                activity.getActivityName(),
+                activity.getActivityID(),
+                activity.getActivityType(),
+                operator.getOperatorName());
+            break;
+          }
+        }
       }
     } else {
       MessageCli.ACTIVITIES_FOUND.printMessage(
           "are", String.valueOf(activityMatchingKeywordCount), "ies", ":");
       for (Activity match : matchingActivities) {
-        MessageCli.ACTIVITY_ENTRY.printMessage(
-            match.getActivityName(),
-            match.getActivityID(),
-            match.getActivityType(),
-            match.getOperatorID());
+        for (Operator operator : operatorList) {
+          if (operator.getOperatorID().equals(match.getOperatorID())) {
+            MessageCli.ACTIVITY_ENTRY.printMessage(
+                match.getActivityName(),
+                match.getActivityID(),
+                match.getActivityType(),
+                operator.getOperatorName());
+            break;
+          }
+        }
       }
     }
 
