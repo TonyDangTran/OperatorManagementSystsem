@@ -15,6 +15,8 @@ public class OperatorManagementSystem {
   private ArrayList<Operator> operatorList = new ArrayList<Operator>();
   private ArrayList<Activity> activityList = new ArrayList<Activity>();
   private int activityOperatorCount;
+  private String activityKeyword;
+  private int activityMatchingKeywordCount;
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
@@ -190,16 +192,49 @@ public class OperatorManagementSystem {
         foundOperator.getOperatorName());
   }
 
-  // else {
-  //   if (operator.getOperatorID().equals(operatorId) == false) {
-  //     MessageCli.ACTIVITY_NOT_CREATED_INVALID_OPERATOR_ID.printMessage(operatorId);
-  //     return;
-  //   }
-  // }
-
   // TODO implement
 
   public void searchActivities(String keyword) {
+
+    activityKeyword = keyword.toLowerCase().trim();
+    activityMatchingKeywordCount = 0;
+    ArrayList<Activity> matchingActivities = new ArrayList<Activity>();
+
+    if (activityKeyword.equals("*")) {
+      activityMatchingKeywordCount = activityList.size();
+      matchingActivities.addAll(activityList);
+    } else {
+      for (Activity activity : activityList) {
+        if (activity.getActivityName().toLowerCase().contains(activityKeyword)
+            || activity.getOperatorID().toLowerCase().contains(activityKeyword)) {
+          activityMatchingKeywordCount++;
+          matchingActivities.add(activity);
+        }
+      }
+    }
+    if (matchingActivities.size() == 0) {
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
+    } else if (matchingActivities.size() == 1) {
+      MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
+      for (Activity activity : matchingActivities) {
+        MessageCli.ACTIVITY_ENTRY.printMessage(
+            activity.getActivityName(),
+            activity.getActivityID(),
+            activity.getActivityType(),
+            activity.getOperatorID());
+      }
+    } else {
+      MessageCli.ACTIVITIES_FOUND.printMessage(
+          "are", String.valueOf(activityMatchingKeywordCount), "ies", ":");
+      for (Activity match : matchingActivities) {
+        MessageCli.ACTIVITY_ENTRY.printMessage(
+            match.getActivityName(),
+            match.getActivityID(),
+            match.getActivityType(),
+            match.getOperatorID());
+      }
+    }
+
     // TODO implement
   }
 
