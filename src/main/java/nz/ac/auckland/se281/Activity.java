@@ -11,14 +11,15 @@ public class Activity {
 
   Activity(
       String activityName,
+      String activityType,
       ActivityType activityTypeEnum,
       String operatorId,
       int activityOperatorCount) {
+    this.activityTypeEnum = ActivityType.fromString(activityType);
     this.activityName = activityName;
-    this.activityTypeEnum = activityTypeEnum;
-    this.activityType = activityTypeEnum.getName();
     this.activityOperatorCount = activityOperatorCount;
     this.operatorId = operatorId;
+    this.activityType = activityType;
   }
 
   public String getActivityName() {
@@ -26,10 +27,19 @@ public class Activity {
   }
 
   public String getActivityType() {
-    return this.activityType;
+    if (this.activityTypeEnum.toString().toUpperCase().equals(this.activityType.toUpperCase())) {
+      return activityTypeEnum.toString();
+    } else {
+      activityTypeEnum = ActivityType.OTHER;
+      return activityTypeEnum.toString();
+    }
   }
 
   public String getOperatorID() {
+    return this.operatorId;
+  }
+
+  public String getActivityID() {
     return this.operatorId + "-" + String.format("%03d", activityOperatorCount);
   }
 }

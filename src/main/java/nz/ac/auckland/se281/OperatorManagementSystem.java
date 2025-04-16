@@ -10,6 +10,7 @@ public class OperatorManagementSystem {
   private String operatorName;
   private String location;
   private int operatorCount;
+  private int activityCount;
   private int matchingKeywordCount;
   private ArrayList<Operator> operatorList = new ArrayList<Operator>();
   private ArrayList<Activity> activityList = new ArrayList<Activity>();
@@ -103,7 +104,50 @@ public class OperatorManagementSystem {
   }
 
   public void viewActivities(String operatorId) {
-    // TODO implement
+    Operator foundOperator = null;
+    for (Operator operator : operatorList) {
+      if (operator.getOperatorID().equals(operatorId)) {
+        foundOperator = operator;
+        break;
+      }
+    }
+    if (foundOperator == null) {
+      MessageCli.OPERATOR_NOT_FOUND.printMessage(operatorId);
+      return;
+    }
+
+    activityCount = 0;
+    for (Activity activity : activityList) {
+      if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
+        activityCount++;
+      }
+    }
+
+    if (activityCount == 0) {
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
+    } else if (activityCount == 1) {
+      MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
+      for (Activity activity : activityList) {
+        if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
+          MessageCli.ACTIVITY_ENTRY.printMessage(
+              activity.getActivityName(),
+              activity.getActivityID(),
+              activity.getActivityType(),
+              foundOperator.getOperatorName());
+        }
+      }
+    } else {
+      MessageCli.ACTIVITIES_FOUND.printMessage("are", String.valueOf(activityCount), "ies", ":");
+      for (Activity activity : activityList) {
+        if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
+          MessageCli.ACTIVITY_ENTRY.printMessage(
+              activity.getActivityName(),
+              activity.getActivityID(),
+              activity.getActivityType(),
+              foundOperator.getOperatorName());
+        }
+      }
+    }
   }
 
   public void createActivity(String activityName, String activityType, String operatorId) {
@@ -116,7 +160,6 @@ public class OperatorManagementSystem {
     for (Operator operator : operatorList) {
       if (operator.getOperatorID().equals(operatorId)) {
         foundOperator = operator;
-        break;
       }
     }
 
@@ -131,17 +174,18 @@ public class OperatorManagementSystem {
 
     activityOperatorCount = 1;
     for (Activity activity : activityList) {
-      if (activity.getActivityName().equals(activityName)) {
+      if (activity.getOperatorID().equals(operatorId)) {
         activityOperatorCount++;
-        return;
+        break;
       }
     }
     Activity newActivity =
-        new Activity(activityName, activityTypeEnum, operatorId, activityOperatorCount);
+        new Activity(
+            activityName, activityType, activityTypeEnum, operatorId, activityOperatorCount);
     activityList.add(newActivity);
     MessageCli.ACTIVITY_CREATED.printMessage(
         newActivity.getActivityName(),
-        newActivity.getOperatorID(),
+        newActivity.getActivityID(),
         newActivity.getActivityType(),
         foundOperator.getOperatorName());
   }
