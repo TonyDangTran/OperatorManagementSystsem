@@ -15,8 +15,11 @@ public class OperatorManagementSystem {
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
 
-  public void searchOperators(
-      String keyword) { // receives a keyword, and searches the matchingOperatrs ArrayList for it.
+  public void
+      searchOperators( // receives a keyword, and searches the matchingOperators ArrayList for it.
+          String
+              keyword) { // Then gives the appropriate output based on the amount of matching
+                         // operators.
     this.keyword = keyword.toLowerCase().trim();
     matchingKeywordCount = 0;
     ArrayList<Operator> matchingOperators = new ArrayList<Operator>();

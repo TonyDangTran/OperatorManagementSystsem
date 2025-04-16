@@ -58,9 +58,9 @@ public class Operator {
   }
 
   public String getOperatorInitials() {
-    String[] Initials = this.operatorName.split(" ");
+    String[] initials = this.operatorName.split(" ");
 
-    for (String word : Initials) {
+    for (String word : initials) {
       operatorInitials += (word.charAt(0));
     }
     return operatorInitials;
