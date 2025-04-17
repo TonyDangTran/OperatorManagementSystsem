@@ -17,6 +17,11 @@ public class OperatorManagementSystem {
   private int activityOperatorCount;
   private String activityKeyword;
   private int activityMatchingKeywordCount;
+  private ArrayList<PublicReview> publicReviewList = new ArrayList<PublicReview>();
+  private ArrayList<PrivateReview> privateReviewList = new ArrayList<PrivateReview>();
+  private ArrayList<ExpertReview> expertReviewList = new ArrayList<ExpertReview>();
+  private int reviewCount;
+  private int reviewAmount;
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
@@ -262,19 +267,68 @@ public class OperatorManagementSystem {
   }
 
   public void addPublicReview(String activityId, String[] options) {
-    // TODO implement
+    Activity foundActivity = null;
+    for (Activity activity : activityList) {
+      if (activity.getActivityID().equals(activityId)) {
+        foundActivity = activity;
+        break;
+      }
+    }
+    if (foundActivity == null) {
+      MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+      return;
+    }
+    for (int i = 0; i < options.length; i++) {
+      String value = options[i];
+      System.out.println("option " + i + " = " + value);
+    }
+    reviewCount = 1;
+    for (PublicReview publicReview : publicReviewList) {
+      if (publicReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+        break;
+      }
+    }
+
+    PublicReview newPublicReview =
+        new PublicReview(
+            options[0],
+            options[1],
+            Integer.parseInt(options[2]),
+            (options[3]),
+            activityId,
+            reviewCount);
+    publicReviewList.add(newPublicReview);
+    MessageCli.REVIEW_ADDED.printMessage(
+        "Public", newPublicReview.getReviewID(), foundActivity.getActivityName());
   }
 
   public void addPrivateReview(String activityId, String[] options) {
-    // TODO implement
+    for (int i = 0; i < options.length; i++) {
+      String value = options[i];
+      System.out.println("option " + i + " = " + value);
+    }
   }
 
   public void addExpertReview(String activityId, String[] options) {
-    // TODO implement
+    for (int i = 0; i < options.length; i++) {
+      String value = options[i];
+      System.out.println("option " + i + " = " + value);
+    }
   }
 
   public void displayReviews(String activityId) {
     // TODO implement
+    // for (Activity activity : activityList) {
+    //   if (activity.getActivityID().equals(activityId)) {
+    //     for (Review Review : ReviewList) {
+    //       if (publicReview.getActivityID().equals(activityId)) {
+    //         reviewAmount++;
+    //       }
+    //     }
+    //     break;
+    //   }
+    // }
   }
 
   public void endorseReview(String reviewId) {
