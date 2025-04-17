@@ -205,6 +205,18 @@ public class OperatorManagementSystem {
       matchingActivities.addAll(activityList);
     } else {
       for (Activity activity : activityList) {
+        for (Operator operator : operatorList) {
+          if (operator.getOperatorID().equals(activity.getOperatorID())) {
+            if (operator.getOperatorName().toLowerCase().contains(activityKeyword)
+                || operator.getLocationAbbreviation().toLowerCase().contains(activityKeyword)
+                || operator.getLocationEnglish().toLowerCase().contains(activityKeyword)
+                || operator.getLocationTeReo().toLowerCase().contains(activityKeyword)) {
+              activityMatchingKeywordCount++;
+              matchingActivities.add(activity);
+            }
+            break;
+          }
+        }
         if (activity.getActivityName().toLowerCase().contains(activityKeyword)
             || activity.getOperatorID().toLowerCase().contains(activityKeyword)
             || activity.getActivityType().toLowerCase().contains(activityKeyword)) {
