@@ -278,15 +278,20 @@ public class OperatorManagementSystem {
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
       return;
     }
-    for (int i = 0; i < options.length; i++) {
-      String value = options[i];
-      System.out.println("option " + i + " = " + value);
-    }
     reviewCount = 1;
     for (PublicReview publicReview : publicReviewList) {
       if (publicReview.getActivityID().equals(activityId)) {
         reviewCount++;
-        break;
+      }
+    }
+    for (PrivateReview privateReview : privateReviewList) {
+      if (privateReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+    for (ExpertReview expertReview : expertReviewList) {
+      if (expertReview.getActivityID().equals(activityId)) {
+        reviewCount++;
       }
     }
 
@@ -308,6 +313,52 @@ public class OperatorManagementSystem {
       String value = options[i];
       System.out.println("option " + i + " = " + value);
     }
+    // option[0] = name (String)
+    // option[1] = email (String)
+    // option[2] = rating (int)
+    // option[3] = review text (String)
+    // option[4] = follow up request (y/n) (string) (boolean)
+
+    Activity foundActivity = null;
+    for (Activity activity : activityList) {
+      if (activity.getActivityID().equals(activityId)) {
+        foundActivity = activity;
+        break;
+      }
+    }
+    if (foundActivity == null) {
+      MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+      return;
+    }
+    reviewCount = 1;
+    for (PublicReview publicReview : publicReviewList) {
+      if (publicReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+    for (PrivateReview privateReview : privateReviewList) {
+      if (privateReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+    for (ExpertReview expertReview : expertReviewList) {
+      if (expertReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+
+    PrivateReview newPrivateReview =
+        new PrivateReview(
+            options[0],
+            options[1],
+            Integer.parseInt(options[2]),
+            options[3],
+            options[4],
+            activityId,
+            reviewCount);
+    privateReviewList.add(newPrivateReview);
+    MessageCli.REVIEW_ADDED.printMessage(
+        "Private", newPrivateReview.getReviewID(), foundActivity.getActivityName());
   }
 
   public void addExpertReview(String activityId, String[] options) {
@@ -315,6 +366,51 @@ public class OperatorManagementSystem {
       String value = options[i];
       System.out.println("option " + i + " = " + value);
     }
+
+    // option 0 = Andrew
+    // option 1 = 5
+    // option 2 = skibidi
+    // option 3 = y
+
+    Activity foundActivity = null;
+    for (Activity activity : activityList) {
+      if (activity.getActivityID().equals(activityId)) {
+        foundActivity = activity;
+        break;
+      }
+    }
+    if (foundActivity == null) {
+      MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
+      return;
+    }
+    int reviewCount = 1;
+    for (PublicReview publicReview : publicReviewList) {
+      if (publicReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+    for (PrivateReview privateReview : privateReviewList) {
+      if (privateReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+    for (ExpertReview expertReview : expertReviewList) {
+      if (expertReview.getActivityID().equals(activityId)) {
+        reviewCount++;
+      }
+    }
+
+    ExpertReview newExpertReview =
+        new ExpertReview(
+            options[0],
+            Integer.parseInt(options[1]),
+            options[2],
+            options[3],
+            activityId,
+            reviewCount);
+    expertReviewList.add(newExpertReview);
+    MessageCli.REVIEW_ADDED.printMessage(
+        "Expert", newExpertReview.getReviewID(), foundActivity.getActivityName());
   }
 
   public void displayReviews(String activityId) {
@@ -329,6 +425,8 @@ public class OperatorManagementSystem {
     //     break;
     //   }
     // }
+
+    // if publicReview.getAnonymous() == true then print their name as anonymous.
   }
 
   public void endorseReview(String reviewId) {
