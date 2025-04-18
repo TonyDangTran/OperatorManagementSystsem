@@ -409,8 +409,11 @@ public class OperatorManagementSystem {
           }
         } else if (review instanceof PrivateReview) {
           PrivateReview privateReview = (PrivateReview) review;
-          if (privateReview.getFollowUp()) {
+          if (privateReview.getResponded()) {
+            MessageCli.REVIEW_ENTRY_RESOLVED.printMessage(privateReview.getResponse());
+          } else if (privateReview.getFollowUp()) {
             MessageCli.REVIEW_ENTRY_FOLLOW_UP.printMessage(privateReview.getEmail());
+
           } else {
             MessageCli.REVIEW_ENTRY_RESOLVED.printMessage("-");
           }
@@ -420,16 +423,15 @@ public class OperatorManagementSystem {
   }
 
   public void endorseReview(String reviewId) {
-    Review matchingReview = null;
-    List<Review> matchingReviews = new ArrayList<>();
 
     for (Review review : ReviewList) {
       if (review instanceof PublicReview) {
         PublicReview publicReview = (PublicReview) review;
         if (publicReview.getReviewID().equals(reviewId)) {
-          matchingReviews.add(publicReview);
           MessageCli.REVIEW_ENDORSED.printMessage(publicReview.getReviewID());
           publicReview.setEndorsement(true);
+        } else {
+          MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
         }
       } else {
         MessageCli.REVIEW_NOT_ENDORSED.printMessage(reviewId);
@@ -438,6 +440,19 @@ public class OperatorManagementSystem {
   }
 
   public void resolveReview(String reviewId, String response) {
+    for (Review review : ReviewList) {
+      if (review instanceof PrivateReview) {
+        PrivateReview privateReview = (PrivateReview) review;
+        if (privateReview.getReviewID().equals(reviewId)) {
+          MessageCli.REVIEW_RESOLVED.printMessage(privateReview.getReviewID());
+          privateReview.setResponse(response);
+        } else {
+          MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+        }
+      } else {
+        MessageCli.REVIEW_NOT_RESOLVED.printMessage(reviewId);
+      }
+    }
     // TODO implement
   }
 
