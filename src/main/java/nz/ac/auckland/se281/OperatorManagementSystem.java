@@ -21,6 +21,7 @@ public class OperatorManagementSystem {
   private ArrayList<Review> ReviewList = new ArrayList<Review>();
   private int reviewCount;
   private int reviewAmount;
+  ArrayList<Review> endorseReview = new ArrayList<>();
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
@@ -195,8 +196,6 @@ public class OperatorManagementSystem {
         foundOperator.getOperatorName());
   }
 
-  // TODO implement
-
   public void searchActivities(String keyword) {
 
     activityKeyword = keyword.toLowerCase().trim();
@@ -260,8 +259,6 @@ public class OperatorManagementSystem {
         }
       }
     }
-
-    // TODO implement
   }
 
   public void addPublicReview(String activityId, String[] options) {
@@ -317,22 +314,6 @@ public class OperatorManagementSystem {
         reviewCount++;
       }
     }
-
-    // for (PublicReview publicReview : publicReviewList) {
-    //   if (publicReview.getActivityID().equals(activityId)) {
-    //     reviewCount++;
-    //   }
-    // }
-    // for (PrivateReview privateReview : privateReviewList) {
-    //   if (privateReview.getActivityID().equals(activityId)) {
-    //     reviewCount++;
-    //   }
-    // }
-    // for (ExpertReview expertReview : expertReviewList) {
-    //   if (expertReview.getActivityID().equals(activityId)) {
-    //     reviewCount++;
-    //   }
-    // }
 
     Review newPrivateReview =
         new PrivateReview(
@@ -416,43 +397,44 @@ public class OperatorManagementSystem {
             review.getReviewID(),
             review.getName());
         MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(review.getReviewText());
-      }
-      for (Review reviews : ReviewList) {
-        if (reviews instanceof PrivateReview) {
-          PrivateReview privateReview = (PrivateReview) reviews;
+        if (review instanceof PublicReview) {
+          PublicReview publicReview = (PublicReview) review;
+          if (publicReview.getEndorsement()) {
+            MessageCli.REVIEW_ENTRY_ENDORSED.printMessage();
+          }
+        } else if (review instanceof ExpertReview) {
+          ExpertReview expertReview = (ExpertReview) review;
+          if (expertReview.getRecommendation()) {
+            MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
+          }
+        } else if (review instanceof PrivateReview) {
+          PrivateReview privateReview = (PrivateReview) review;
           if (privateReview.getFollowUp()) {
             MessageCli.REVIEW_ENTRY_FOLLOW_UP.printMessage(privateReview.getEmail());
           } else {
             MessageCli.REVIEW_ENTRY_RESOLVED.printMessage("-");
-          }
-        } else {
-          if (reviews instanceof ExpertReview) {
-            ExpertReview expertReview = (ExpertReview) reviews; // Safe cast
-            if (expertReview.getRecommendation()) {
-              MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
-            }
           }
         }
       }
     }
   }
 
-  // TODO implement
-  // for (Activity activity : activityList) {
-  //   if (activity.getActivityID().equals(activityId)) {
-  //     for (Review Review : ReviewList) {c
-  //       if (publicReview.getActivityID().equals(activityId)) {
-  //         reviewAmount++;
-  //       }
-  //     }
-  //     break;
-  //   }
-  // }
-
-  // if publicReview.getAnonymous() == true then print their name as anonymous.
-
   public void endorseReview(String reviewId) {
-    // TODO implement
+    Review matchingReview = null;
+    List<Review> matchingReviews = new ArrayList<>();
+
+    for (Review review : ReviewList) {
+      if (review instanceof PublicReview) {
+        PublicReview publicReview = (PublicReview) review;
+        if (publicReview.getReviewID().equals(reviewId)) {
+          matchingReviews.add(publicReview);
+          MessageCli.REVIEW_ENDORSED.printMessage(publicReview.getReviewID());
+          publicReview.setEndorsement(true);
+        }
+      } else {
+        MessageCli.REVIEW_NOT_ENDORSED.printMessage(reviewId);
+      }
+    }
   }
 
   public void resolveReview(String reviewId, String response) {

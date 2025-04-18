@@ -7,6 +7,7 @@ public class PublicReview extends Review {
   private int rating;
   private String reviewID;
   private int reviewCount;
+  private boolean endorsement;
 
   public PublicReview(
       String name,
@@ -22,6 +23,7 @@ public class PublicReview extends Review {
     this.reviewText = reviewText;
     this.reviewID = reviewID;
     this.reviewCount = reviewCount;
+    this.endorsement = false;
   }
 
   public boolean getAnonymous() {
@@ -30,6 +32,14 @@ public class PublicReview extends Review {
     } else {
       return false;
     }
+  }
+
+  public boolean setEndorsement(boolean Endorsement) {
+    return this.endorsement = Endorsement;
+  }
+
+  public boolean getEndorsement() {
+    return this.endorsement;
   }
 
   @Override
