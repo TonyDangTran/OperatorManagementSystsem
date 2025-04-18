@@ -1,6 +1,7 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import java.util.List;
 import nz.ac.auckland.se281.Types.ActivityType;
 import nz.ac.auckland.se281.Types.Location;
 
@@ -17,9 +18,7 @@ public class OperatorManagementSystem {
   private int activityOperatorCount;
   private String activityKeyword;
   private int activityMatchingKeywordCount;
-  private ArrayList<PublicReview> publicReviewList = new ArrayList<PublicReview>();
-  private ArrayList<PrivateReview> privateReviewList = new ArrayList<PrivateReview>();
-  private ArrayList<ExpertReview> expertReviewList = new ArrayList<ExpertReview>();
+  private ArrayList<Review> ReviewList = new ArrayList<Review>();
   private int reviewCount;
   private int reviewAmount;
 
@@ -183,7 +182,6 @@ public class OperatorManagementSystem {
     for (Activity activity : activityList) {
       if (activity.getOperatorID().equals(operatorId)) {
         activityOperatorCount++;
-        break;
       }
     }
     Activity newActivity =
@@ -279,23 +277,14 @@ public class OperatorManagementSystem {
       return;
     }
     reviewCount = 1;
-    for (PublicReview publicReview : publicReviewList) {
-      if (publicReview.getActivityID().equals(activityId)) {
-        reviewCount++;
-      }
-    }
-    for (PrivateReview privateReview : privateReviewList) {
-      if (privateReview.getActivityID().equals(activityId)) {
-        reviewCount++;
-      }
-    }
-    for (ExpertReview expertReview : expertReviewList) {
-      if (expertReview.getActivityID().equals(activityId)) {
+
+    for (Review Reviews : ReviewList) {
+      if (Reviews.getActivityID().equals(activityId)) {
         reviewCount++;
       }
     }
 
-    PublicReview newPublicReview =
+    Review newPublicReview =
         new PublicReview(
             options[0],
             options[1],
@@ -303,21 +292,12 @@ public class OperatorManagementSystem {
             (options[3]),
             activityId,
             reviewCount);
-    publicReviewList.add(newPublicReview);
+    ReviewList.add(newPublicReview);
     MessageCli.REVIEW_ADDED.printMessage(
         "Public", newPublicReview.getReviewID(), foundActivity.getActivityName());
   }
 
   public void addPrivateReview(String activityId, String[] options) {
-    for (int i = 0; i < options.length; i++) {
-      String value = options[i];
-      System.out.println("option " + i + " = " + value);
-    }
-    // option[0] = name (String)
-    // option[1] = email (String)
-    // option[2] = rating (int)
-    // option[3] = review text (String)
-    // option[4] = follow up request (y/n) (string) (boolean)
 
     Activity foundActivity = null;
     for (Activity activity : activityList) {
@@ -331,23 +311,30 @@ public class OperatorManagementSystem {
       return;
     }
     reviewCount = 1;
-    for (PublicReview publicReview : publicReviewList) {
-      if (publicReview.getActivityID().equals(activityId)) {
-        reviewCount++;
-      }
-    }
-    for (PrivateReview privateReview : privateReviewList) {
-      if (privateReview.getActivityID().equals(activityId)) {
-        reviewCount++;
-      }
-    }
-    for (ExpertReview expertReview : expertReviewList) {
-      if (expertReview.getActivityID().equals(activityId)) {
+
+    for (Review Reviews : ReviewList) {
+      if (Reviews.getActivityID().equals(activityId)) {
         reviewCount++;
       }
     }
 
-    PrivateReview newPrivateReview =
+    // for (PublicReview publicReview : publicReviewList) {
+    //   if (publicReview.getActivityID().equals(activityId)) {
+    //     reviewCount++;
+    //   }
+    // }
+    // for (PrivateReview privateReview : privateReviewList) {
+    //   if (privateReview.getActivityID().equals(activityId)) {
+    //     reviewCount++;
+    //   }
+    // }
+    // for (ExpertReview expertReview : expertReviewList) {
+    //   if (expertReview.getActivityID().equals(activityId)) {
+    //     reviewCount++;
+    //   }
+    // }
+
+    Review newPrivateReview =
         new PrivateReview(
             options[0],
             options[1],
@@ -356,21 +343,12 @@ public class OperatorManagementSystem {
             options[4],
             activityId,
             reviewCount);
-    privateReviewList.add(newPrivateReview);
+    ReviewList.add(newPrivateReview);
     MessageCli.REVIEW_ADDED.printMessage(
         "Private", newPrivateReview.getReviewID(), foundActivity.getActivityName());
   }
 
   public void addExpertReview(String activityId, String[] options) {
-    for (int i = 0; i < options.length; i++) {
-      String value = options[i];
-      System.out.println("option " + i + " = " + value);
-    }
-
-    // option 0 = Andrew
-    // option 1 = 5
-    // option 2 = skibidi
-    // option 3 = y
 
     Activity foundActivity = null;
     for (Activity activity : activityList) {
@@ -384,23 +362,14 @@ public class OperatorManagementSystem {
       return;
     }
     int reviewCount = 1;
-    for (PublicReview publicReview : publicReviewList) {
-      if (publicReview.getActivityID().equals(activityId)) {
-        reviewCount++;
-      }
-    }
-    for (PrivateReview privateReview : privateReviewList) {
-      if (privateReview.getActivityID().equals(activityId)) {
-        reviewCount++;
-      }
-    }
-    for (ExpertReview expertReview : expertReviewList) {
-      if (expertReview.getActivityID().equals(activityId)) {
+
+    for (Review Reviews : ReviewList) {
+      if (Reviews.getActivityID().equals(activityId)) {
         reviewCount++;
       }
     }
 
-    ExpertReview newExpertReview =
+    Review newExpertReview =
         new ExpertReview(
             options[0],
             Integer.parseInt(options[1]),
@@ -408,26 +377,62 @@ public class OperatorManagementSystem {
             options[3],
             activityId,
             reviewCount);
-    expertReviewList.add(newExpertReview);
+    ReviewList.add(newExpertReview);
     MessageCli.REVIEW_ADDED.printMessage(
         "Expert", newExpertReview.getReviewID(), foundActivity.getActivityName());
   }
 
   public void displayReviews(String activityId) {
-    // TODO implement
-    // for (Activity activity : activityList) {
-    //   if (activity.getActivityID().equals(activityId)) {
-    //     for (Review Review : ReviewList) {
-    //       if (publicReview.getActivityID().equals(activityId)) {
-    //         reviewAmount++;
-    //       }
-    //     }
-    //     break;
-    //   }
-    // }
+    Activity activity = null;
+    List<Review> matchingReviews = new ArrayList<>(); // List to store matching reviews
 
-    // if publicReview.getAnonymous() == true then print their name as anonymous.
+    for (Activity act : activityList) {
+      if (act.getActivityID().equals(activityId)) {
+        activity = act;
+        break;
+      }
+    }
+
+    for (Review review : ReviewList) {
+      if (review.getActivityID().equals(activityId)) {
+        matchingReviews.add(review); // Add matching reviews to the list
+      }
+    }
+
+    if (matchingReviews.isEmpty()) {
+      MessageCli.REVIEWS_FOUND.printMessage("are", "no", "s", activity.getActivityName());
+    } else {
+      if (matchingReviews.size() == 1) {
+        MessageCli.REVIEWS_FOUND.printMessage("is", "1", "", activity.getActivityName());
+      } else {
+        MessageCli.REVIEWS_FOUND.printMessage(
+            "are", String.valueOf(matchingReviews.size()), "s", activity.getActivityName());
+      }
+      for (Review review : matchingReviews) {
+        MessageCli.REVIEW_ENTRY_HEADER.printMessage(
+            String.valueOf(review.getRating()),
+            "5",
+            review.getType(), // "review type needs to go here"
+            review.getReviewID(),
+            review.getName());
+        MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(review.getReviewText());
+      } // assertContains("* [3/5] Public review (SSB-TRG-002-001-R1) by 'Alice'");
+    }
   }
+
+  // TODO implement
+  // for (Activity activity : activityList) {
+  //   if (activity.getActivityID().equals(activityId)) {
+  //     for (Review Review : ReviewList) {
+  //       if (publicReview.getActivityID().equals(activityId)) {
+  //         reviewAmount++;
+  //       }
+  //     }
+  //     break;
+  //   }
+  // }
+
+  // if publicReview.getAnonymous() == true then print their name as anonymous.
 
   public void endorseReview(String reviewId) {
     // TODO implement

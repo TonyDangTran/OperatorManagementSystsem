@@ -17,28 +17,19 @@ public class PrivateReview extends Review {
       String followUp,
       String reviewID,
       int reviewCount) {
-    super(name, reviewText, rating, reviewID, reviewCount);
+    super(name, email, rating, reviewText, followUp, reviewID, reviewCount);
     this.name = name;
     this.email = email;
     this.rating = rating;
     this.reviewText = reviewText;
     this.followUp = followUp;
+    this.reviewID = reviewID;
+    this.reviewCount = reviewCount;
   }
 
-  public String getEmail() {
-    return this.email;
-  }
-
-  public boolean getFollowUp() {
-    if (this.followUp.equals("y")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public String getReviewText() {
-    return this.reviewText;
+  @Override
+  public String getName() {
+    return this.name;
   }
 }
 

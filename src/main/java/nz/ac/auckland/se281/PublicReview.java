@@ -15,7 +15,7 @@ public class PublicReview extends Review {
       String reviewText,
       String reviewID,
       int reviewCount) {
-    super(name, reviewText, rating, reviewID, reviewCount);
+    super(name, anonymous, rating, reviewText, reviewID, reviewCount);
     this.name = name;
     this.reviewText = reviewText;
     this.rating = rating;
@@ -27,6 +27,16 @@ public class PublicReview extends Review {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public String getName() {
+    // if (getAnonymous()) {
+    //   return "Anonymous";
+    // } else {
+    //   return this.name;
+    // }
+    return this.name;
   }
 }
 

@@ -2,7 +2,6 @@ package nz.ac.auckland.se281;
 
 public class ExpertReview extends Review {
   private String name;
-  private String email;
   private int rating;
   private String reviewText;
   private String recommendation;
@@ -16,15 +15,13 @@ public class ExpertReview extends Review {
       String recommendation,
       String reviewID,
       int reviewCount) {
-    super(name, reviewText, rating, reviewID, reviewCount);
+    super(name, rating, reviewText, recommendation, reviewID, reviewCount);
     this.name = name;
     this.rating = rating;
     this.reviewText = reviewText;
     this.recommendation = recommendation;
-  }
-
-  public String getEmail() {
-    return this.email;
+    this.reviewID = reviewID;
+    this.reviewCount = reviewCount;
   }
 
   public boolean getRecommendation() {
@@ -33,6 +30,11 @@ public class ExpertReview extends Review {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public String getName() {
+    return this.name;
   }
 }
 
