@@ -27,6 +27,18 @@ public class PrivateReview extends Review {
     this.reviewCount = reviewCount;
   }
 
+  public boolean getFollowUp() {
+    if (this.followUp.equals("y")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public String getEmail() {
+    return this.email;
+  }
+
   @Override
   public String getName() {
     return this.name;

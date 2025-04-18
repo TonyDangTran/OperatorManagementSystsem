@@ -17,8 +17,11 @@ public class PublicReview extends Review {
       int reviewCount) {
     super(name, anonymous, rating, reviewText, reviewID, reviewCount);
     this.name = name;
-    this.reviewText = reviewText;
+    this.anonymous = anonymous;
     this.rating = rating;
+    this.reviewText = reviewText;
+    this.reviewID = reviewID;
+    this.reviewCount = reviewCount;
   }
 
   public boolean getAnonymous() {
@@ -31,12 +34,11 @@ public class PublicReview extends Review {
 
   @Override
   public String getName() {
-    // if (getAnonymous()) {
-    //   return "Anonymous";
-    // } else {
-    //   return this.name;
-    // }
-    return this.name;
+    if (getAnonymous()) {
+      return "Anonymous";
+    } else {
+      return this.name;
+    }
   }
 }
 

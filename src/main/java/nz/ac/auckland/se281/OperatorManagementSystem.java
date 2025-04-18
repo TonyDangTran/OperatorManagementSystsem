@@ -384,7 +384,7 @@ public class OperatorManagementSystem {
 
   public void displayReviews(String activityId) {
     Activity activity = null;
-    List<Review> matchingReviews = new ArrayList<>(); // List to store matching reviews
+    List<Review> matchingReviews = new ArrayList<>();
 
     for (Activity act : activityList) {
       if (act.getActivityID().equals(activityId)) {
@@ -395,7 +395,7 @@ public class OperatorManagementSystem {
 
     for (Review review : ReviewList) {
       if (review.getActivityID().equals(activityId)) {
-        matchingReviews.add(review); // Add matching reviews to the list
+        matchingReviews.add(review);
       }
     }
 
@@ -412,18 +412,35 @@ public class OperatorManagementSystem {
         MessageCli.REVIEW_ENTRY_HEADER.printMessage(
             String.valueOf(review.getRating()),
             "5",
-            review.getType(), // "review type needs to go here"
+            review.getType(),
             review.getReviewID(),
             review.getName());
         MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(review.getReviewText());
-      } // assertContains("* [3/5] Public review (SSB-TRG-002-001-R1) by 'Alice'");
+      }
+      for (Review reviews : ReviewList) {
+        if (reviews instanceof PrivateReview) {
+          PrivateReview privateReview = (PrivateReview) reviews;
+          if (privateReview.getFollowUp()) {
+            MessageCli.REVIEW_ENTRY_FOLLOW_UP.printMessage(privateReview.getEmail());
+          } else {
+            MessageCli.REVIEW_ENTRY_RESOLVED.printMessage("-");
+          }
+        } else {
+          if (reviews instanceof ExpertReview) {
+            ExpertReview expertReview = (ExpertReview) reviews; // Safe cast
+            if (expertReview.getRecommendation()) {
+              MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
+            }
+          }
+        }
+      }
     }
   }
 
   // TODO implement
   // for (Activity activity : activityList) {
   //   if (activity.getActivityID().equals(activityId)) {
-  //     for (Review Review : ReviewList) {
+  //     for (Review Review : ReviewList) {c
   //       if (publicReview.getActivityID().equals(activityId)) {
   //         reviewAmount++;
   //       }

@@ -92,9 +92,7 @@ public abstract class Review {
     return this.reviewID + "-R" + reviewCount;
   }
 
-  public String getName() {
-    return this.name;
-  }
+  public abstract String getName();
 
   public String getType() {
     return this.type;
