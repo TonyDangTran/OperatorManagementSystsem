@@ -18,10 +18,8 @@ public class OperatorManagementSystem {
   private int activityOperatorCount;
   private String activityKeyword;
   private int activityMatchingKeywordCount;
-  private ArrayList<Review> ReviewList = new ArrayList<Review>();
+  private ArrayList<Review> reviewList = new ArrayList<Review>();
   private int reviewCount;
-  private int reviewAmount;
-  ArrayList<Review> endorseReview = new ArrayList<>();
   private String expertImage = "";
 
   // Do not change the parameters of the constructor
@@ -111,7 +109,9 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void viewActivities(String operatorId) {
+  public void viewActivities(
+      String
+          operatorId) { // receives an operator ID, and displays the activities for that operator.
     Operator foundOperator = null;
     for (Operator operator : operatorList) {
       if (operator.getOperatorID().equals(operatorId)) {
@@ -131,9 +131,9 @@ public class OperatorManagementSystem {
       }
     }
 
-    if (activityCount == 0) {
+    if (activityCount == 0) { // no activites found
       MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
-    } else if (activityCount == 1) {
+    } else if (activityCount == 1) { // one activity found
       MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
       for (Activity activity : activityList) {
         if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
@@ -144,7 +144,7 @@ public class OperatorManagementSystem {
               foundOperator.getOperatorName());
         }
       }
-    } else {
+    } else { // multiple activities found
       MessageCli.ACTIVITIES_FOUND.printMessage("are", String.valueOf(activityCount), "ies", ":");
       for (Activity activity : activityList) {
         if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
@@ -158,7 +158,10 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void createActivity(String activityName, String activityType, String operatorId) {
+  public void createActivity(
+      String activityName,
+      String activityType,
+      String operatorId) { // creates an activity only if operator is made for the location
     if (activityName.strip().length() < 3) {
       MessageCli.ACTIVITY_NOT_CREATED_INVALID_ACTIVITY_NAME.printMessage(activityName);
       return;
@@ -171,7 +174,7 @@ public class OperatorManagementSystem {
       }
     }
 
-    if (foundOperator == null) {
+    if (foundOperator == null) { // no created operator, invalid creation
       MessageCli.ACTIVITY_NOT_CREATED_INVALID_OPERATOR_ID.printMessage(operatorId);
       return;
     }
@@ -188,7 +191,11 @@ public class OperatorManagementSystem {
     }
     Activity newActivity =
         new Activity(
-            activityName, activityType, activityTypeEnum, operatorId, activityOperatorCount);
+            activityName,
+            activityType,
+            activityTypeEnum,
+            operatorId,
+            activityOperatorCount); // create new instance of an activity class
     activityList.add(newActivity);
     MessageCli.ACTIVITY_CREATED.printMessage(
         newActivity.getActivityName(),
@@ -198,12 +205,12 @@ public class OperatorManagementSystem {
   }
 
   public void searchActivities(String keyword) {
-
+    /// receives a keyword, and searches the matchingActivities ArrayList for it.
     activityKeyword = keyword.toLowerCase().trim();
     activityMatchingKeywordCount = 0;
     ArrayList<Activity> matchingActivities = new ArrayList<Activity>();
 
-    if (activityKeyword.equals("*")) {
+    if (activityKeyword.equals("*")) { // asterisk keyword
       activityMatchingKeywordCount = activityList.size();
       matchingActivities.addAll(activityList);
     } else {
@@ -220,6 +227,7 @@ public class OperatorManagementSystem {
             break;
           }
         }
+        // check if activity name, type or operator id contains the keyword
         if (activity.getActivityName().toLowerCase().contains(activityKeyword)
             || activity.getOperatorID().toLowerCase().contains(activityKeyword)
             || activity.getActivityType().toLowerCase().contains(activityKeyword)) {
@@ -228,9 +236,9 @@ public class OperatorManagementSystem {
         }
       }
     }
-    if (matchingActivities.size() == 0) {
+    if (matchingActivities.size() == 0) { // no activities found
       MessageCli.ACTIVITIES_FOUND.printMessage("are", "no", "ies", ".");
-    } else if (matchingActivities.size() == 1) {
+    } else if (matchingActivities.size() == 1) { // one activity found
       MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
       for (Activity activity : matchingActivities) {
         for (Operator operator : operatorList) {
@@ -244,7 +252,7 @@ public class OperatorManagementSystem {
           }
         }
       }
-    } else {
+    } else { // multiple activities found
       MessageCli.ACTIVITIES_FOUND.printMessage(
           "are", String.valueOf(activityMatchingKeywordCount), "ies", ":");
       for (Activity match : matchingActivities) {
@@ -262,7 +270,8 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void addPublicReview(String activityId, String[] options) {
+  public void addPublicReview(
+      String activityId, String[] options) { // creates public review, given a valid activity id
     Activity foundActivity = null;
     for (Activity activity : activityList) {
       if (activity.getActivityID().equals(activityId)) {
@@ -270,13 +279,13 @@ public class OperatorManagementSystem {
         break;
       }
     }
-    if (foundActivity == null) {
+    if (foundActivity == null) { // invalid activity, review not created
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
       return;
     }
     reviewCount = 1;
 
-    for (Review Reviews : ReviewList) {
+    for (Review Reviews : reviewList) {
       if (Reviews.getActivityID().equals(activityId)) {
         reviewCount++;
       }
@@ -289,14 +298,14 @@ public class OperatorManagementSystem {
             Integer.parseInt(options[2]),
             (options[3]),
             activityId,
-            reviewCount);
-    ReviewList.add(newPublicReview);
+            reviewCount); // create new instance of a public review
+    reviewList.add(newPublicReview);
     MessageCli.REVIEW_ADDED.printMessage(
         "Public", newPublicReview.getReviewID(), foundActivity.getActivityName());
   }
 
-  public void addPrivateReview(String activityId, String[] options) {
-
+  public void addPrivateReview(
+      String activityId, String[] options) { // creates private review, given a valid activity id
     Activity foundActivity = null;
     for (Activity activity : activityList) {
       if (activity.getActivityID().equals(activityId)) {
@@ -304,13 +313,13 @@ public class OperatorManagementSystem {
         break;
       }
     }
-    if (foundActivity == null) {
+    if (foundActivity == null) { // invalid activity, review not created
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
       return;
     }
     reviewCount = 1;
 
-    for (Review Reviews : ReviewList) {
+    for (Review Reviews : reviewList) {
       if (Reviews.getActivityID().equals(activityId)) {
         reviewCount++;
       }
@@ -324,13 +333,14 @@ public class OperatorManagementSystem {
             options[3],
             options[4],
             activityId,
-            reviewCount);
-    ReviewList.add(newPrivateReview);
+            reviewCount); // create new instance of a private review
+    reviewList.add(newPrivateReview);
     MessageCli.REVIEW_ADDED.printMessage(
         "Private", newPrivateReview.getReviewID(), foundActivity.getActivityName());
   }
 
-  public void addExpertReview(String activityId, String[] options) {
+  public void addExpertReview(
+      String activityId, String[] options) { // creates expert review, given a valid activity id
 
     Activity foundActivity = null;
     for (Activity activity : activityList) {
@@ -339,18 +349,18 @@ public class OperatorManagementSystem {
         break;
       }
     }
-    if (foundActivity == null) {
+    if (foundActivity == null) { // if the activity is not found, review is not created
       MessageCli.REVIEW_NOT_ADDED_INVALID_ACTIVITY_ID.printMessage(activityId);
       return;
     }
     int reviewCount = 1;
 
-    for (Review Reviews : ReviewList) {
+    for (Review Reviews : reviewList) {
       if (Reviews.getActivityID().equals(activityId)) {
         reviewCount++;
       }
     }
-
+    // if the activity is found, create expert review instance
     Review newExpertReview =
         new ExpertReview(
             options[0],
@@ -359,12 +369,13 @@ public class OperatorManagementSystem {
             options[3],
             activityId,
             reviewCount);
-    ReviewList.add(newExpertReview);
+    reviewList.add(newExpertReview);
     MessageCli.REVIEW_ADDED.printMessage(
         "Expert", newExpertReview.getReviewID(), foundActivity.getActivityName());
   }
 
-  public void displayReviews(String activityId) {
+  public void displayReviews(
+      String activityId) { // receives an activity ID and displays the reviews for that activity.
     Activity activity = null;
     List<Review> matchingReviews = new ArrayList<>();
 
@@ -375,7 +386,7 @@ public class OperatorManagementSystem {
       }
     }
 
-    for (Review review : ReviewList) {
+    for (Review review : reviewList) {
       if (review.getActivityID().equals(activityId)) {
         matchingReviews.add(review);
       }
@@ -400,25 +411,26 @@ public class OperatorManagementSystem {
         MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(review.getReviewText());
         if (review instanceof PublicReview) {
           PublicReview publicReview = (PublicReview) review;
-          if (publicReview.getEndorsement()) {
+          if (publicReview.getEndorsement()) { // if the public review is endorsed
             MessageCli.REVIEW_ENTRY_ENDORSED.printMessage();
           }
         } else if (review instanceof ExpertReview) {
           ExpertReview expertReview = (ExpertReview) review;
-          if (expertReview.getRecommendation()) {
+          if (expertReview.getRecommendation()) { // if the expert review is recommended
             MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
           }
-          if (expertReview.getImage() != "") {
+          if (expertReview.getImage() != "") { // if the expert review has an image
             MessageCli.REVIEW_ENTRY_IMAGES.printMessage(expertReview.getImage());
           }
         } else if (review instanceof PrivateReview) {
           PrivateReview privateReview = (PrivateReview) review;
-          if (privateReview.getResponded()) {
+          if (privateReview.getResponded()) { // if the private review has been responded to
             MessageCli.REVIEW_ENTRY_RESOLVED.printMessage(privateReview.getResponse());
           } else if (privateReview.getFollowUp()) {
+            // if the private review needs to be followed up
             MessageCli.REVIEW_ENTRY_FOLLOW_UP.printMessage(privateReview.getEmail());
 
-          } else {
+          } else { // if private review does not need resolution
             MessageCli.REVIEW_ENTRY_RESOLVED.printMessage("-");
           }
         }
@@ -426,12 +438,12 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void endorseReview(String reviewId) {
-    if (ReviewList.isEmpty()) {
+  public void endorseReview(String reviewId) { // receives a review ID and endorses the review.
+    if (reviewList.isEmpty()) {
       MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
     }
 
-    for (Review review : ReviewList) {
+    for (Review review : reviewList) {
       if (review instanceof PublicReview) {
         PublicReview publicReview = (PublicReview) review;
         if (publicReview.getReviewID().equals(reviewId)) {
@@ -446,11 +458,12 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void resolveReview(String reviewId, String response) {
-    if (ReviewList.isEmpty()) {
+  public void resolveReview(
+      String reviewId, String response) { // receives a review ID and resolves the review.
+    if (reviewList.isEmpty()) {
       MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
     }
-    for (Review review : ReviewList) {
+    for (Review review : reviewList) {
       if (review instanceof PrivateReview) {
         PrivateReview privateReview = (PrivateReview) review;
         if (privateReview.getReviewID().equals(reviewId)) {
@@ -466,11 +479,14 @@ public class OperatorManagementSystem {
     // TODO implement
   }
 
-  public void uploadReviewImage(String reviewId, String imageName) {
-    if (ReviewList.isEmpty()) {
+  public void uploadReviewImage(
+      String reviewId,
+      String imageName) { // receives a review ID and an image name, and uploads the image to the
+    // review.
+    if (reviewList.isEmpty()) {
       MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
     }
-    for (Review review : ReviewList) {
+    for (Review review : reviewList) {
       if (review instanceof ExpertReview) {
         ExpertReview expertReview = (ExpertReview) review;
         if (expertReview.getReviewID().equals(reviewId)) {
@@ -489,12 +505,13 @@ public class OperatorManagementSystem {
     }
   }
 
-  public void displayTopActivities() {
+  public void displayTopActivities() { // displays the top reviewed activity in each location.
     for (Types.Location location : Types.Location.values()) {
       Activity topActivity = null;
       double highestRating = 0;
 
-      if (ReviewList.isEmpty()) {
+      if (reviewList
+          .isEmpty()) { // if list is empty, pirnt no reviewed activities for all locations.
         MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.toString());
       }
 
@@ -508,13 +525,13 @@ public class OperatorManagementSystem {
           }
         }
 
-        if (!isInLocation) {
+        if (!isInLocation) { // Check if the activity is in the current location
           continue;
         }
 
         double totalRating = 0;
         int count = 0;
-        for (Review review : ReviewList) {
+        for (Review review : reviewList) { // Calculate the average rating for the activity
           if (review.getActivityID().equals(activity.getActivityID())
               && (review instanceof PublicReview || review instanceof ExpertReview)) {
             totalRating += review.getRating();
@@ -530,7 +547,7 @@ public class OperatorManagementSystem {
           }
         }
       }
-      if (topActivity != null) {
+      if (topActivity != null) { // if a top activity is found, print the details.
         MessageCli.TOP_ACTIVITY.printMessage(
             location.toString(),
             topActivity.getActivityName(),

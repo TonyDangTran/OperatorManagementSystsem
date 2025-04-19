@@ -14,7 +14,7 @@ public class Activity {
       String activityType,
       ActivityType activityTypeEnum,
       String operatorId,
-      int activityOperatorCount) {
+      int activityOperatorCount) { // Activity constructor
     this.activityTypeEnum = ActivityType.fromString(activityType);
     this.activityName = activityName;
     this.activityOperatorCount = activityOperatorCount;

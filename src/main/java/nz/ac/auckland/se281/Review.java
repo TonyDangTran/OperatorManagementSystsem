@@ -12,14 +12,6 @@ public abstract class Review {
   private String recommendation;
   private String type;
 
-  // public Review(String name, String reviewText, int rating, String reviewID, int reviewCount) {
-  //   this.name = name;
-  //   this.reviewText = reviewText;
-  //   this.rating = rating;
-  //   this.reviewID = reviewID;
-  //   this.reviewCount = reviewCount;
-  // }
-
   public Review( // public review constructor
       String name,
       String anonymous,
@@ -37,7 +29,7 @@ public abstract class Review {
     this.type = "Public";
   }
 
-  public Review( // private
+  public Review( // private review constructor
       String name,
       String email,
       int rating,
@@ -55,7 +47,7 @@ public abstract class Review {
     this.type = "Private";
   }
 
-  public Review( // expert
+  public Review( // expert review
       String name,
       int rating,
       String reviewText,
