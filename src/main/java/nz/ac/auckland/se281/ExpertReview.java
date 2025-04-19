@@ -7,6 +7,7 @@ public class ExpertReview extends Review {
   private String recommendation;
   private String reviewID;
   private int reviewCount;
+  private String image;
 
   public ExpertReview(
       String name,
@@ -22,6 +23,7 @@ public class ExpertReview extends Review {
     this.recommendation = recommendation;
     this.reviewID = reviewID;
     this.reviewCount = reviewCount;
+    this.image = "";
   }
 
   public boolean getRecommendation() {
@@ -30,6 +32,14 @@ public class ExpertReview extends Review {
     } else {
       return false;
     }
+  }
+
+  public String setImage(String image) {
+    return this.image = image;
+  }
+
+  public String getImage() {
+    return this.image;
   }
 
   @Override

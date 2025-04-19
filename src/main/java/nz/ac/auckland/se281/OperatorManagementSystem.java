@@ -22,6 +22,7 @@ public class OperatorManagementSystem {
   private int reviewCount;
   private int reviewAmount;
   ArrayList<Review> endorseReview = new ArrayList<>();
+  private String expertImage = "";
 
   // Do not change the parameters of the constructor
   public OperatorManagementSystem() {}
@@ -407,6 +408,9 @@ public class OperatorManagementSystem {
           if (expertReview.getRecommendation()) {
             MessageCli.REVIEW_ENTRY_RECOMMENDED.printMessage();
           }
+          if (expertReview.getImage() != "") {
+            MessageCli.REVIEW_ENTRY_IMAGES.printMessage(expertReview.getImage());
+          }
         } else if (review instanceof PrivateReview) {
           PrivateReview privateReview = (PrivateReview) review;
           if (privateReview.getResponded()) {
@@ -423,6 +427,9 @@ public class OperatorManagementSystem {
   }
 
   public void endorseReview(String reviewId) {
+    if (ReviewList.isEmpty()) {
+      MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+    }
 
     for (Review review : ReviewList) {
       if (review instanceof PublicReview) {
@@ -440,6 +447,9 @@ public class OperatorManagementSystem {
   }
 
   public void resolveReview(String reviewId, String response) {
+    if (ReviewList.isEmpty()) {
+      MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+    }
     for (Review review : ReviewList) {
       if (review instanceof PrivateReview) {
         PrivateReview privateReview = (PrivateReview) review;
@@ -457,10 +467,77 @@ public class OperatorManagementSystem {
   }
 
   public void uploadReviewImage(String reviewId, String imageName) {
-    // TODO implement
+    if (ReviewList.isEmpty()) {
+      MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+    }
+    for (Review review : ReviewList) {
+      if (review instanceof ExpertReview) {
+        ExpertReview expertReview = (ExpertReview) review;
+        if (expertReview.getReviewID().equals(reviewId)) {
+          MessageCli.REVIEW_IMAGE_ADDED.printMessage(imageName, expertReview.getReviewID());
+          if (!expertImage.isEmpty()) {
+            expertImage += ",";
+          }
+          expertImage += imageName;
+          expertReview.setImage(expertImage);
+        } else {
+          MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
+        }
+      } else {
+        MessageCli.REVIEW_IMAGE_NOT_ADDED_NOT_EXPERT.printMessage(reviewId);
+      }
+    }
   }
 
   public void displayTopActivities() {
-    // TODO implement
+    for (Types.Location location : Types.Location.values()) {
+      Activity topActivity = null;
+      double highestRating = 0;
+
+      if (ReviewList.isEmpty()) {
+        MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.toString());
+      }
+
+      for (Activity activity : activityList) {
+        boolean isInLocation = false;
+        for (Operator operator : operatorList) {
+          if (operator.getOperatorID().equals(activity.getOperatorID())
+              && operator.getLocation().equals(location)) {
+            isInLocation = true;
+            break;
+          }
+        }
+
+        if (!isInLocation) {
+          continue;
+        }
+
+        double totalRating = 0;
+        int count = 0;
+        for (Review review : ReviewList) {
+          if (review.getActivityID().equals(activity.getActivityID())
+              && (review instanceof PublicReview || review instanceof ExpertReview)) {
+            totalRating += review.getRating();
+            count++;
+          }
+        }
+
+        if (count > 0) {
+          double averageRating = totalRating / count;
+          if (averageRating > highestRating) {
+            highestRating = averageRating;
+            topActivity = activity;
+          }
+        }
+      }
+      if (topActivity != null) {
+        MessageCli.TOP_ACTIVITY.printMessage(
+            location.toString(),
+            topActivity.getActivityName(),
+            String.format("%.1f", highestRating));
+      } else {
+        MessageCli.NO_REVIEWED_ACTIVITIES.printMessage(location.toString());
+      }
+    }
   }
 }
