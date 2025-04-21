@@ -6,7 +6,7 @@ public class Operator {
   private String operatorName;
   private Location location;
   private String operatorInitials = "";
-  private String operatorID = "";
+  private String operatorId = "";
 
   public Operator(
       String operatorName,
@@ -14,15 +14,15 @@ public class Operator {
       int operatorNumber) { // Operator Constructor that takes in three inputs
     this.operatorName = operatorName;
     this.location = location;
-    this.operatorID = generateOperatorID(operatorNumber);
+    this.operatorId = generateOperatorId(operatorNumber);
   }
 
   // getters and setters
-  public String getOperatorID() {
-    return this.operatorID;
+  public String getOperatorId() {
+    return this.operatorId;
   }
 
-  public String generateOperatorID(int operatorNumber) {
+  public String generateOperatorId(int operatorNumber) {
     return getOperatorInitials()
         + "-"
         + location.getLocationAbbreviation()

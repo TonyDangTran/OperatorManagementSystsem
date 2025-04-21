@@ -35,11 +35,11 @@ public class Activity {
     }
   }
 
-  public String getOperatorID() {
+  public String getOperatorId() {
     return this.operatorId;
   }
 
-  public String getActivityID() {
+  public String getActivityId() {
     return this.operatorId + "-" + String.format("%03d", activityOperatorCount);
   }
 }

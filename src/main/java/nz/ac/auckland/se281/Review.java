@@ -1,15 +1,12 @@
 package nz.ac.auckland.se281;
 
 public abstract class Review {
-  private String name;
+
   private String reviewText;
   private int rating;
-  private String reviewID;
+  private String reviewId;
   private int reviewCount;
-  private String anonymous;
-  private String email;
-  private String followUp;
-  private String recommendation;
+
   private String type;
 
   public Review( // public review constructor
@@ -20,11 +17,8 @@ public abstract class Review {
       String reviewID,
       int reviewCount) {
 
-    this.name = name;
-    this.anonymous = anonymous;
     this.rating = rating;
     this.reviewText = reviewText;
-    this.reviewID = reviewID;
     this.reviewCount = reviewCount;
     this.type = "Public";
   }
@@ -37,12 +31,9 @@ public abstract class Review {
       String followUp,
       String reviewID,
       int reviewCount) {
-    this.name = name;
-    this.email = email;
+
     this.rating = rating;
     this.reviewText = reviewText;
-    this.followUp = followUp;
-    this.reviewID = reviewID;
     this.reviewCount = reviewCount;
     this.type = "Private";
   }
@@ -52,13 +43,12 @@ public abstract class Review {
       int rating,
       String reviewText,
       String recommendation,
-      String reviewID,
+      String reviewId,
       int reviewCount) {
-    this.name = name;
+
     this.rating = rating;
     this.reviewText = reviewText;
-    this.recommendation = recommendation;
-    this.reviewID = reviewID;
+    this.reviewId = reviewId;
     this.reviewCount = reviewCount;
     this.type = "Expert";
   }
@@ -76,12 +66,12 @@ public abstract class Review {
     return this.rating;
   }
 
-  public String getActivityID() {
-    return this.reviewID;
+  public String getActivityId() {
+    return this.reviewId;
   }
 
-  public String getReviewID() {
-    return this.reviewID + "-R" + reviewCount;
+  public String getReviewId() {
+    return this.reviewId + "-R" + reviewCount;
   }
 
   public abstract String getName();

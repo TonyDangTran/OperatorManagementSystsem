@@ -2,11 +2,7 @@ package nz.ac.auckland.se281;
 
 public class ExpertReview extends Review {
   private String name;
-  private int rating;
-  private String reviewText;
   private String recommendation;
-  private String reviewID;
-  private int reviewCount;
   private String image;
 
   public ExpertReview(
@@ -18,11 +14,7 @@ public class ExpertReview extends Review {
       int reviewCount) {
     super(name, rating, reviewText, recommendation, reviewID, reviewCount);
     this.name = name;
-    this.rating = rating;
-    this.reviewText = reviewText;
     this.recommendation = recommendation;
-    this.reviewID = reviewID;
-    this.reviewCount = reviewCount;
     this.image = "";
   }
 

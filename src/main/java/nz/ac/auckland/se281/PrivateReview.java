@@ -3,11 +3,9 @@ package nz.ac.auckland.se281;
 public class PrivateReview extends Review {
   private String name;
   private String email;
-  private int rating;
-  private String reviewText;
+
   private String followUp;
-  private String reviewID;
-  private int reviewCount;
+
   private String response;
   private boolean responded;
 
@@ -22,11 +20,7 @@ public class PrivateReview extends Review {
     super(name, email, rating, reviewText, followUp, reviewID, reviewCount);
     this.name = name;
     this.email = email;
-    this.rating = rating;
-    this.reviewText = reviewText;
     this.followUp = followUp;
-    this.reviewID = reviewID;
-    this.reviewCount = reviewCount;
     this.response = "";
     this.responded = false;
   }

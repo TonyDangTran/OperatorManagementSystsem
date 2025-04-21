@@ -54,14 +54,14 @@ public class OperatorManagementSystem {
       MessageCli.OPERATORS_FOUND.printMessage("is", "1", "", ":");
       MessageCli.OPERATOR_ENTRY.printMessage(
           matchingOperators.get(0).getOperatorName(),
-          matchingOperators.get(0).getOperatorID(),
+          matchingOperators.get(0).getOperatorId(),
           matchingOperators.get(0).getLocationFullName());
     } else {
       MessageCli.OPERATORS_FOUND.printMessage(
           "are", String.valueOf(matchingKeywordCount), "s", ":");
       for (Operator match : matchingOperators) {
         MessageCli.OPERATOR_ENTRY.printMessage(
-            match.getOperatorName(), match.getOperatorID(), match.getLocationFullName());
+            match.getOperatorName(), match.getOperatorId(), match.getLocationFullName());
       }
     }
   }
@@ -101,7 +101,7 @@ public class OperatorManagementSystem {
       System.out.println(
           MessageCli.OPERATOR_CREATED.getMessage(
               newOperator.getOperatorName(),
-              newOperator.getOperatorID(),
+              newOperator.getOperatorId(),
               newOperator.getLocationFullName()));
     } else {
       System.out.println(
@@ -114,7 +114,7 @@ public class OperatorManagementSystem {
           operatorId) { // receives an operator ID, and displays the activities for that operator.
     Operator foundOperator = null;
     for (Operator operator : operatorList) {
-      if (operator.getOperatorID().equals(operatorId)) {
+      if (operator.getOperatorId().equals(operatorId)) {
         foundOperator = operator;
         break;
       }
@@ -126,7 +126,7 @@ public class OperatorManagementSystem {
 
     activityCount = 0;
     for (Activity activity : activityList) {
-      if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
+      if (activity.getOperatorId().equals(foundOperator.getOperatorId())) {
         activityCount++;
       }
     }
@@ -136,10 +136,10 @@ public class OperatorManagementSystem {
     } else if (activityCount == 1) { // one activity found
       MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
       for (Activity activity : activityList) {
-        if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
+        if (activity.getOperatorId().equals(foundOperator.getOperatorId())) {
           MessageCli.ACTIVITY_ENTRY.printMessage(
               activity.getActivityName(),
-              activity.getActivityID(),
+              activity.getActivityId(),
               activity.getActivityType(),
               foundOperator.getOperatorName());
         }
@@ -147,10 +147,10 @@ public class OperatorManagementSystem {
     } else { // multiple activities found
       MessageCli.ACTIVITIES_FOUND.printMessage("are", String.valueOf(activityCount), "ies", ":");
       for (Activity activity : activityList) {
-        if (activity.getOperatorID().equals(foundOperator.getOperatorID())) {
+        if (activity.getOperatorId().equals(foundOperator.getOperatorId())) {
           MessageCli.ACTIVITY_ENTRY.printMessage(
               activity.getActivityName(),
-              activity.getActivityID(),
+              activity.getActivityId(),
               activity.getActivityType(),
               foundOperator.getOperatorName());
         }
@@ -169,7 +169,7 @@ public class OperatorManagementSystem {
 
     Operator foundOperator = null;
     for (Operator operator : operatorList) {
-      if (operator.getOperatorID().equals(operatorId)) {
+      if (operator.getOperatorId().equals(operatorId)) {
         foundOperator = operator;
       }
     }
@@ -185,7 +185,7 @@ public class OperatorManagementSystem {
 
     activityOperatorCount = 1;
     for (Activity activity : activityList) {
-      if (activity.getOperatorID().equals(operatorId)) {
+      if (activity.getOperatorId().equals(operatorId)) {
         activityOperatorCount++;
       }
     }
@@ -199,7 +199,7 @@ public class OperatorManagementSystem {
     activityList.add(newActivity);
     MessageCli.ACTIVITY_CREATED.printMessage(
         newActivity.getActivityName(),
-        newActivity.getActivityID(),
+        newActivity.getActivityId(),
         newActivity.getActivityType(),
         foundOperator.getOperatorName());
   }
@@ -216,7 +216,7 @@ public class OperatorManagementSystem {
     } else {
       for (Activity activity : activityList) {
         for (Operator operator : operatorList) {
-          if (operator.getOperatorID().equals(activity.getOperatorID())) {
+          if (operator.getOperatorId().equals(activity.getOperatorId())) {
             if (operator.getOperatorName().toLowerCase().contains(activityKeyword)
                 || operator.getLocationAbbreviation().toLowerCase().contains(activityKeyword)
                 || operator.getLocationEnglish().toLowerCase().contains(activityKeyword)
@@ -229,7 +229,7 @@ public class OperatorManagementSystem {
         }
         // check if activity name, type or operator id contains the keyword
         if (activity.getActivityName().toLowerCase().contains(activityKeyword)
-            || activity.getOperatorID().toLowerCase().contains(activityKeyword)
+            || activity.getOperatorId().toLowerCase().contains(activityKeyword)
             || activity.getActivityType().toLowerCase().contains(activityKeyword)) {
           activityMatchingKeywordCount++;
           matchingActivities.add(activity);
@@ -242,10 +242,10 @@ public class OperatorManagementSystem {
       MessageCli.ACTIVITIES_FOUND.printMessage("is", "1", "y", ":");
       for (Activity activity : matchingActivities) {
         for (Operator operator : operatorList) {
-          if (operator.getOperatorID().equals(activity.getOperatorID())) {
+          if (operator.getOperatorId().equals(activity.getOperatorId())) {
             MessageCli.ACTIVITY_ENTRY.printMessage(
                 activity.getActivityName(),
-                activity.getActivityID(),
+                activity.getActivityId(),
                 activity.getActivityType(),
                 operator.getOperatorName());
             break;
@@ -257,10 +257,10 @@ public class OperatorManagementSystem {
           "are", String.valueOf(activityMatchingKeywordCount), "ies", ":");
       for (Activity match : matchingActivities) {
         for (Operator operator : operatorList) {
-          if (operator.getOperatorID().equals(match.getOperatorID())) {
+          if (operator.getOperatorId().equals(match.getOperatorId())) {
             MessageCli.ACTIVITY_ENTRY.printMessage(
                 match.getActivityName(),
-                match.getActivityID(),
+                match.getActivityId(),
                 match.getActivityType(),
                 operator.getOperatorName());
             break;
@@ -274,7 +274,7 @@ public class OperatorManagementSystem {
       String activityId, String[] options) { // creates public review, given a valid activity id
     Activity foundActivity = null;
     for (Activity activity : activityList) {
-      if (activity.getActivityID().equals(activityId)) {
+      if (activity.getActivityId().equals(activityId)) {
         foundActivity = activity;
         break;
       }
@@ -285,8 +285,8 @@ public class OperatorManagementSystem {
     }
     reviewCount = 1;
 
-    for (Review Reviews : reviewList) {
-      if (Reviews.getActivityID().equals(activityId)) {
+    for (Review reviews : reviewList) {
+      if (reviews.getActivityId().equals(activityId)) {
         reviewCount++;
       }
     }
@@ -301,14 +301,14 @@ public class OperatorManagementSystem {
             reviewCount); // create new instance of a public review
     reviewList.add(newPublicReview);
     MessageCli.REVIEW_ADDED.printMessage(
-        "Public", newPublicReview.getReviewID(), foundActivity.getActivityName());
+        "Public", newPublicReview.getReviewId(), foundActivity.getActivityName());
   }
 
   public void addPrivateReview(
       String activityId, String[] options) { // creates private review, given a valid activity id
     Activity foundActivity = null;
     for (Activity activity : activityList) {
-      if (activity.getActivityID().equals(activityId)) {
+      if (activity.getActivityId().equals(activityId)) {
         foundActivity = activity;
         break;
       }
@@ -319,8 +319,8 @@ public class OperatorManagementSystem {
     }
     reviewCount = 1;
 
-    for (Review Reviews : reviewList) {
-      if (Reviews.getActivityID().equals(activityId)) {
+    for (Review reviews : reviewList) {
+      if (reviews.getActivityId().equals(activityId)) {
         reviewCount++;
       }
     }
@@ -336,7 +336,7 @@ public class OperatorManagementSystem {
             reviewCount); // create new instance of a private review
     reviewList.add(newPrivateReview);
     MessageCli.REVIEW_ADDED.printMessage(
-        "Private", newPrivateReview.getReviewID(), foundActivity.getActivityName());
+        "Private", newPrivateReview.getReviewId(), foundActivity.getActivityName());
   }
 
   public void addExpertReview(
@@ -344,7 +344,7 @@ public class OperatorManagementSystem {
 
     Activity foundActivity = null;
     for (Activity activity : activityList) {
-      if (activity.getActivityID().equals(activityId)) {
+      if (activity.getActivityId().equals(activityId)) {
         foundActivity = activity;
         break;
       }
@@ -355,8 +355,8 @@ public class OperatorManagementSystem {
     }
     int reviewCount = 1;
 
-    for (Review Reviews : reviewList) {
-      if (Reviews.getActivityID().equals(activityId)) {
+    for (Review reviews : reviewList) {
+      if (reviews.getActivityId().equals(activityId)) {
         reviewCount++;
       }
     }
@@ -371,7 +371,7 @@ public class OperatorManagementSystem {
             reviewCount);
     reviewList.add(newExpertReview);
     MessageCli.REVIEW_ADDED.printMessage(
-        "Expert", newExpertReview.getReviewID(), foundActivity.getActivityName());
+        "Expert", newExpertReview.getReviewId(), foundActivity.getActivityName());
   }
 
   public void displayReviews(
@@ -380,14 +380,14 @@ public class OperatorManagementSystem {
     List<Review> matchingReviews = new ArrayList<>();
 
     for (Activity act : activityList) {
-      if (act.getActivityID().equals(activityId)) {
+      if (act.getActivityId().equals(activityId)) {
         activity = act;
         break;
       }
     }
 
     for (Review review : reviewList) {
-      if (review.getActivityID().equals(activityId)) {
+      if (review.getActivityId().equals(activityId)) {
         matchingReviews.add(review);
       }
     }
@@ -406,7 +406,7 @@ public class OperatorManagementSystem {
             String.valueOf(review.getRating()),
             "5",
             review.getType(),
-            review.getReviewID(),
+            review.getReviewId(),
             review.getName());
         MessageCli.REVIEW_ENTRY_REVIEW_TEXT.printMessage(review.getReviewText());
         if (review instanceof PublicReview) {
@@ -446,8 +446,8 @@ public class OperatorManagementSystem {
     for (Review review : reviewList) {
       if (review instanceof PublicReview) {
         PublicReview publicReview = (PublicReview) review;
-        if (publicReview.getReviewID().equals(reviewId)) {
-          MessageCli.REVIEW_ENDORSED.printMessage(publicReview.getReviewID());
+        if (publicReview.getReviewId().equals(reviewId)) {
+          MessageCli.REVIEW_ENDORSED.printMessage(publicReview.getReviewId());
           publicReview.setEndorsement(true);
         } else {
           MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
@@ -466,8 +466,8 @@ public class OperatorManagementSystem {
     for (Review review : reviewList) {
       if (review instanceof PrivateReview) {
         PrivateReview privateReview = (PrivateReview) review;
-        if (privateReview.getReviewID().equals(reviewId)) {
-          MessageCli.REVIEW_RESOLVED.printMessage(privateReview.getReviewID());
+        if (privateReview.getReviewId().equals(reviewId)) {
+          MessageCli.REVIEW_RESOLVED.printMessage(privateReview.getReviewId());
           privateReview.setResponse(response);
         } else {
           MessageCli.REVIEW_NOT_FOUND.printMessage(reviewId);
@@ -489,8 +489,8 @@ public class OperatorManagementSystem {
     for (Review review : reviewList) {
       if (review instanceof ExpertReview) {
         ExpertReview expertReview = (ExpertReview) review;
-        if (expertReview.getReviewID().equals(reviewId)) {
-          MessageCli.REVIEW_IMAGE_ADDED.printMessage(imageName, expertReview.getReviewID());
+        if (expertReview.getReviewId().equals(reviewId)) {
+          MessageCli.REVIEW_IMAGE_ADDED.printMessage(imageName, expertReview.getReviewId());
           if (!expertImage.isEmpty()) {
             expertImage += ",";
           }
@@ -518,7 +518,7 @@ public class OperatorManagementSystem {
       for (Activity activity : activityList) {
         boolean isInLocation = false;
         for (Operator operator : operatorList) {
-          if (operator.getOperatorID().equals(activity.getOperatorID())
+          if (operator.getOperatorId().equals(activity.getOperatorId())
               && operator.getLocation().equals(location)) {
             isInLocation = true;
             break;
@@ -532,7 +532,7 @@ public class OperatorManagementSystem {
         double totalRating = 0;
         int count = 0;
         for (Review review : reviewList) { // Calculate the average rating for the activity
-          if (review.getActivityID().equals(activity.getActivityID())
+          if (review.getActivityId().equals(activity.getActivityId())
               && (review instanceof PublicReview || review instanceof ExpertReview)) {
             totalRating += review.getRating();
             count++;

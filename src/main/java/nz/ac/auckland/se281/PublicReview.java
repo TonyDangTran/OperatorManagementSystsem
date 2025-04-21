@@ -3,10 +3,6 @@ package nz.ac.auckland.se281;
 public class PublicReview extends Review {
   private String name;
   private String anonymous;
-  private String reviewText;
-  private int rating;
-  private String reviewID;
-  private int reviewCount;
   private boolean endorsement;
 
   public PublicReview(
@@ -19,10 +15,6 @@ public class PublicReview extends Review {
     super(name, anonymous, rating, reviewText, reviewID, reviewCount);
     this.name = name;
     this.anonymous = anonymous;
-    this.rating = rating;
-    this.reviewText = reviewText;
-    this.reviewID = reviewID;
-    this.reviewCount = reviewCount;
     this.endorsement = false;
   }
 
