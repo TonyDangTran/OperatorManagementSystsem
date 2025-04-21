@@ -217,8 +217,7 @@ public class OperatorManagementSystem {
       for (Activity activity : activityList) {
         for (Operator operator : operatorList) {
           if (operator.getOperatorId().equals(activity.getOperatorId())) {
-            if (operator.getOperatorName().toLowerCase().contains(activityKeyword)
-                || operator.getLocationAbbreviation().toLowerCase().contains(activityKeyword)
+            if (operator.getLocationAbbreviation().toLowerCase().contains(activityKeyword)
                 || operator.getLocationEnglish().toLowerCase().contains(activityKeyword)
                 || operator.getLocationTeReo().toLowerCase().contains(activityKeyword)) {
               activityMatchingKeywordCount++;
@@ -378,7 +377,6 @@ public class OperatorManagementSystem {
       String activityId) { // receives an activity ID and displays the reviews for that activity.
     Activity activity = null;
     List<Review> matchingReviews = new ArrayList<>();
-
     for (Activity act : activityList) {
       if (act.getActivityId().equals(activityId)) {
         activity = act;
@@ -391,7 +389,10 @@ public class OperatorManagementSystem {
         matchingReviews.add(review);
       }
     }
-
+    if (activity == null) {
+      MessageCli.ACTIVITY_NOT_FOUND.printMessage(activityId);
+      return;
+    }
     if (matchingReviews.isEmpty()) {
       MessageCli.REVIEWS_FOUND.printMessage("are", "no", "s", activity.getActivityName());
     } else {

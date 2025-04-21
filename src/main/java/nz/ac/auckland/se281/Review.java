@@ -16,6 +16,7 @@ public abstract class Review {
       String reviewId,
       int reviewCount) {
 
+    this.reviewId = reviewId;
     this.rating = rating;
     this.reviewText = reviewText;
     this.reviewCount = reviewCount;
@@ -31,6 +32,7 @@ public abstract class Review {
       String reviewId,
       int reviewCount) {
 
+    this.reviewId = reviewId;
     this.rating = rating;
     this.reviewText = reviewText;
     this.reviewCount = reviewCount;
