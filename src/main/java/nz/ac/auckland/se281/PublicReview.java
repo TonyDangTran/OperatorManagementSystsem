@@ -10,9 +10,9 @@ public class PublicReview extends Review {
       String anonymous,
       int rating,
       String reviewText,
-      String reviewID,
+      String reviewId,
       int reviewCount) {
-    super(name, anonymous, rating, reviewText, reviewID, reviewCount);
+    super(name, anonymous, rating, reviewText, reviewId, reviewCount);
     this.name = name;
     this.anonymous = anonymous;
     this.endorsement = false;

@@ -6,7 +6,6 @@ public abstract class Review {
   private int rating;
   private String reviewId;
   private int reviewCount;
-
   private String type;
 
   public Review( // public review constructor
@@ -14,7 +13,7 @@ public abstract class Review {
       String anonymous,
       int rating,
       String reviewText,
-      String reviewID,
+      String reviewId,
       int reviewCount) {
 
     this.rating = rating;
@@ -29,7 +28,7 @@ public abstract class Review {
       int rating,
       String reviewText,
       String followUp,
-      String reviewID,
+      String reviewId,
       int reviewCount) {
 
     this.rating = rating;
@@ -38,7 +37,7 @@ public abstract class Review {
     this.type = "Private";
   }
 
-  public Review( // expert review
+  public Review( // expert review constructor
       String name,
       int rating,
       String reviewText,
