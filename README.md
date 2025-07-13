@@ -1,3 +1,3 @@
-# Assignment 1
+# Java Assignment Project - Operator Management System
 
-You will find instructions for this assignment on the course website.
+This Java project is a reflection of my understanding of basic Java concepts, core OOP concepts, and general programming problem solving skills that I have been working on during my tutelage at the University of Auckland's Software Enginering 281 Course. 
